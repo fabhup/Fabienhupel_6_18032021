@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: $layout-margin*2 $layout-margin*3 $layout-margin*2 $layout-margin*3;
+  max-width:1400px;
+  &-logo svg {
+    width: 200px;
+    @media (max-width: 768px) {
+      width: 150px;
+      }
+
+    @media (max-width: 350px) {
+      width: 100px;
+      }
+
+  }
+
+  @media (max-width: 768px) {
+    padding: $layout-margin $layout-margin $layout-margin $layout-margin;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    }
+
+}

@@ -1,0 +1,25 @@
+{
+  "name": "fabienhupel_6_18032021",
+  "version": "1.0.0",
+  "description": "projet FishEye",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "sass": "sass --watch ./sass/main.scss:./public/css/style.css",
+    "prefix": "postcss ./public/css/style.css --use autoprefixer -d ./public/css/prefixed/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabhup/Fabienhupel_6_18032021.git"
+  },
+  "author": "fabien hupel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fabhup/Fabienhupel_6_18032021/issues"
+  },
+  "homepage": "https://github.com/fabhup/Fabienhupel_6_18032021#readme",
+  "browserslist": "last 4 versions",
+  "dependencies": {
+    "file-system": "^2.2.2"
+  }
+}

@@ -1,0 +1,63 @@
+
+
+
+.content {
+    padding: 0 $layout-margin $layout-margin $layout-margin;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.thumb-photographer {
+    width:350px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    margin: 20px;
+    text-align: center;
+    transform: scale(1);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+    
+    &__header {
+        & img {
+            width: 200px;
+            max-height: 100%;
+            border-radius: 100%;
+            object-fit: cover;
+            overflow:hidden;
+        }
+    }
+
+    & .photographer-profile {
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        &__location {
+            color: $colour-primary;
+            font-size: calc(0.75rem + 0.5vw);
+            margin-bottom: 3px;
+        }
+        &__tagline {
+            color: black;
+            font-size: calc(0.5rem + 0.3vw);
+            margin-bottom: 3px;
+        }
+        &__price {
+            color: $colour-tertiary-light;
+            font-size: calc(0.5rem + 0.3vw);
+        }
+    }
+
+    & .photographer-tags {
+        display:flex;
+        flex-direction: row;
+        @include tagslist-style;
+    }
+
+}

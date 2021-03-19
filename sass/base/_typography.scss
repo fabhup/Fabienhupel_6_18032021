@@ -1,0 +1,48 @@
+@font-face {
+  font-family: "dm-sans";
+  src: url("../../public/font/DM_Sans/DMSans-Regular.ttf")
+      format("truetype");
+}
+
+html {
+  font-family: dm-sans, Arial, sans-serif;
+  font-size: 100%;
+  font-weight: 100;
+  line-height: 1.3;
+  color:black;
+}
+
+h1, h2 {
+  font-weight: 400;
+  font-size: calc(1rem + 1.4vw);
+  @media (max-width: 768px) {
+    font-size: calc(0.6rem + 2vw);
+    }
+}
+
+h1 {
+  color: $colour-primary;
+  white-space: nowrap;
+}
+
+h2 {
+  color: $colour-secondary;
+}
+
+button {
+  text-align: center;
+}
+
+// textarea,
+// p,
+// button,
+// .btn {
+//   font-size: 1em;
+//   line-height: 1.2em;
+// }
+
+a {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
+}

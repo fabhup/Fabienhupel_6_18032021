@@ -1,0 +1,28 @@
+// .section {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   text-align: center;
+//   padding: $layout-margin $layout-margin $layout-margin * 2 $layout-margin;
+//   & h1 {
+//     width: 80%;
+//   }
+//   & p {
+//     margin-bottom: 0.8rem;
+//   }
+//   & .section__title {
+//     align-self: flex-start;
+//     margin: 1.5rem 0rem 1.5rem 0.2rem;
+//   }
+// }
+
+// @media screen and (min-width: 768px) {
+//   .section {
+//     padding: $layout-margin $layout-margin * 8 $layout-margin * 2 $layout-margin *
+//       8;
+
+//     & .section__title {
+//       align-self: center;
+//     }
+//   }
+// }

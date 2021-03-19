@@ -1,0 +1,14 @@
+$colour-primary: #901C1C;
+$colour-secondary: #D3573C;
+$colour-tertiary: #525252;
+$colour-tertiary-light: lighten($colour-tertiary,13.5%);
+
+$colour-background-primary: $colour-primary;
+$colour-background-primary-font: white;
+$colour-background-secondary: #DB8876;
+$colour-background-secondary-font: black;
+$colour-background-light: #FAFAFA;
+$colour-background-light-font: #525252;
+
+$colour-border-btn-tag: #C4C4C4;
+$layout-margin: 20px;
