@@ -1,3 +1,7 @@
+button {
+  outline: none !important; // this one
+}
+
 .btn-tag {
   color: $colour-primary;
   background: transparent;
@@ -10,24 +14,32 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   text-decoration: none;
-  outline: none;
+  outline: 0 none;
+  overflow: hidden;
     // font-size: calc(0.2rem + .1vw);
   // transform: scale(1);
   transition: transform 0.1s ease-in;
-  &:hover, &:focus {
-    color: $colour-background-primary-font;
-    background: $colour-background-primary;
-    border: 1px solid $colour-background-primary;
-    transform: scale(1.05);
+  // &:hover {
+  //   color: $colour-background-primary-font;
+  //   background: $colour-background-primary;
+  //   border: 1px solid $colour-background-primary;
+  //   transform: scale(1.05);
+  // }
+  &:hover, &:active {
+    background: $colour-background-light;
+    transform: scale(1.1);
+  }
+  &:active, &:focus {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
-// [role="button"] {
-//   &[aria-pressed="true"]
-//    {
-//     color: $colour-background-primary-font;
-//     background: $colour-background-primary;
-//     border: 1px solid $colour-background-primary;
-//     transform: scale(1.05);
-//   }
-// }
+[role="button"] {
+  &[aria-pressed="true"]
+   {
+    color: $colour-background-primary-font;
+    background: $colour-background-primary;
+    border: 1px solid $colour-background-primary;
+    transform: scale(1.1);
+  }
+}

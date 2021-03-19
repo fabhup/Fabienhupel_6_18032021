@@ -114,11 +114,9 @@ function filterSelectedTag() {
     const selectedTagNameClass = eltClasses.filter(x => x.startsWith('btn-tag--'))[0];
     const articlesPhotographer = document.querySelectorAll('article[class~="thumb-photographer"]');
     const buttonsTagsPressed = document.querySelectorAll('nav button[class~="btn-tag"][aria-pressed="true"]');
-    
+
     if (this.getAttribute('aria-pressed')=="true") {
-        buttonsTagsPressed.forEach((buttonElement) => { 
-            buttonElement.setAttribute('aria-pressed',"false");
-        })
+        
         articlesPhotographer.forEach((articleElement) => { 
             articleElement.classList.remove('hidden')
         })
@@ -132,6 +130,10 @@ function filterSelectedTag() {
             }
         })
     }
+    buttonsTagsPressed.forEach((buttonElement) => { 
+        buttonElement.setAttribute('aria-pressed',"false");
+    })
+    this.blur(); // to make the focus disappear
     // const articlesWithSelectedTag = document.querySelectorAll(`article button[class~="${selectedTagNameClass}"]`).closest('article');
     // const articlesWithoutSelectedTag = document.querySelectorAll(`article button:not(.${selectedTagNameClass})`);
     // console.log(articlesWithoutSelectedTag);
@@ -229,7 +231,7 @@ buttonsSelectTag.forEach((button) => button.addEventListener("click", filterSele
 //     }
 // }
 
-ajaxGet('/src/data/database.json', getPhotographers);
+ajaxGet('./src/data/database.json', getPhotographers);
 
 // import data from ../data/database.js 
 // var dataText = readTextFile('file:////src/data/database.json');
