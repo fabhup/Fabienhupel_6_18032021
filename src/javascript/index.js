@@ -26,7 +26,7 @@ function getPhotographers(response) {
     // const database = JSON.parse(dataText); 
     // const media = database.media;
     const photographers = database.photographers;
-    const urlImagesPhotgraphers= "/public/images/photographers/Photographers ID Photos/";
+    const urlImagesPhotgraphers= "./public/images/photographers/Photographers ID Photos/";
 
     for (const index in photographers) {
         const photographerData = photographers[index];
