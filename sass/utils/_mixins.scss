@@ -13,7 +13,20 @@
     text-align: center;
     & li {
         display: inline-block;
-        margin: 5px 3px 
+        margin: 5px 4px 
     }
 }
+}
+
+@mixin primary-color-style {
+  background-color: $colour-background-primary;
+  color: $colour-background-primary-font;
+  border-radius: 3px;
+  border:none;
+  padding: 2.5px 9px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
 }

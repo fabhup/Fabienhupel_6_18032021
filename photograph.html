@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FishEye</title>
+    <title>Photographe</title>
     <link rel="stylesheet" href="./public/css/style.css">
 </head>
 <body>
@@ -20,15 +20,24 @@
                     <path d="M135.437 7.94287H129.257L125.707 4.03662H114.004L110.454 7.94287H104.273C102.17 7.94287 100.329 9.63558 100.329 11.8491V35.0262C100.329 37.1095 102.038 38.9324 104.273 38.9324H135.437C137.541 38.9324 139.382 37.2397 139.382 35.0262V11.7189C139.382 9.63558 137.672 7.94287 135.437 7.94287ZM135.437 34.896H104.405V11.7189H112.294L115.845 7.81266H124.129L127.548 11.7189H135.437V34.896ZM119.921 13.672C114.53 13.672 110.191 17.9689 110.191 23.3075C110.191 28.646 114.53 32.9429 119.921 32.9429C125.312 32.9429 129.651 28.646 129.651 23.3075C129.651 17.9689 125.312 13.672 119.921 13.672ZM119.921 29.1668C116.765 29.1668 114.135 26.5627 114.135 23.4377C114.135 20.3127 116.765 17.7085 119.921 17.7085C123.077 17.7085 125.707 20.3127 125.707 23.4377C125.707 26.5627 123.077 29.1668 119.921 29.1668Z" fill="#911C1C"/>
                 </svg>
             </a>
-            <nav role="navigation" class="header-navigation" aria-label="photographer categories">
-                <!-- js script tags list nav -->
-            </nav>
-            <h1>Nos photographes</h1>
         </header>
     </div>
     <main class="content" id="main-content">
+        <header id="photographer-header" class="photographer-header">
+            <div id="photographer-profile" class="photographer-profile">
+                <h2 id="photographer-profile__name"></h2>
+                    <span id="photographer-profile__location" class="photographer-profile__location"></span>
+                    <span id="photographer-profile__tagline" class="photographer-profile__tagline"></span>
+                <div id="photographer-tags" class="photographer-tags">
+
+                </div>
+            </div>
+            <button class="btn-contact">Contactez-moi</button>
+        </header>
+        <section id="photographer-gallery" class="photographer-gallery">
+        </section>
         <!-- js script articles -->
     </main>
-    <script src="./src/javascript/index.js"></script>
+    <script src="./src/javascript/photograph.js"></script>
 </body>
 </html>

@@ -1,41 +1,25 @@
 
-
-
-.content {
-    padding: 0 $layout-margin $layout-margin $layout-margin;
-    display: flex;
-    justify-content: center ;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
-
-.thumb-photographer {
-    width:350px;
+.photographer-header {
     display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:flex-start;
     margin: 20px;
-    text-align: center;
-    transform: scale(1);
-    transition: transform 0.2s ease-in-out;
-
-    &:hover {
-        transform: scale(1.05);
-    }
-    
+    padding: 20px 40px;
+    text-align: left;
+    background-color: $colour-background-light;
+    width: 100%;
     & img {
-            width: 200px;
-            height: 200px;
+            width: 120px;
+            min-width: 120px;
+            height: 120px;
             border-radius: 100%;
             object-fit: cover;
-            overflow:hidden;
         }
 
     & .photographer-profile {
         display:flex;
         flex-direction: column;
-        justify-content: center;
         &__location {
             color: $colour-primary;
             font-size: calc(0.75rem + 0.5vw);
@@ -54,13 +38,22 @@
 
     & .photographer-tags {
         display:flex;
-        flex-direction: row;
         @include tagslist-style;
+        & ul {
+            text-align: left;
+        }
     }
 
-}
+    & .btn-contact {
+        @include primary-color-style;
+        height: 50px;
 
-.photographer-header {
-    text-align: left;
-    flex-direction: row;
+        @media (max-width: 768px) {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            }
+    }
 }
