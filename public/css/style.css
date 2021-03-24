@@ -278,13 +278,13 @@ a {
   color: white;
   border-radius: 3px;
   border: none;
-  padding: 2.5px 9px;
-  font-size: 0.75rem;
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
   text-decoration: none;
   height: 50px;
+  padding: 2.5px 9px;
+  font-size: 0.75rem;
 }
 @media (max-width: 768px) {
   .photographer-header .btn-contact {
@@ -294,6 +294,114 @@ a {
     right: 0;
     margin: auto;
   }
+}
+
+.photographer-gallery {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 20px;
+  color: #901C1C;
+}
+.photographer-gallery .thumb-imgfull {
+  max-width: 350px;
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.photographer-gallery .thumb-imgfull .thumb-img {
+  width: 350px;
+  height: 300px;
+  object-fit: cover;
+}
+.photographer-gallery .thumb-imgfull span {
+  margin: 5px;
+}
+.photographer-gallery .thumb-imgfull .likes {
+  margin: 2px;
+}
+.photographer-gallery .thumb-imgfull svg {
+  width: 18px;
+  position: relative;
+  right: 0;
+  top: 4px;
+}
+.photographer-gallery .thumb-imgfull svg path {
+  fill: #901C1C;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 20px;
+  position: relative;
+}
+.dropdown-title {
+  margin: 10px;
+}
+.dropdown-content {
+  background-color: #901C1C;
+  color: white;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
+  font-size: 0.9rem;
+  width: 130px;
+  position: absolute;
+  left: 100px;
+}
+.dropdown-opened {
+  display: none;
+  flex-direction: column;
+  padding: 0px 2px 12px;
+}
+.dropdown-closed {
+  flex-direction: column;
+  padding: 12px 15px;
+}
+.dropdown-option {
+  margin: 8px 3px 0px;
+  border-top: 1px solid white;
+  padding: 10px 10px 6px;
+}
+.dropdown-option.selected {
+  order: -1;
+  border-top: none;
+  margin: 8px 3px 0px;
+  padding: 4px 10px 6px;
+}
+.dropdown-arrow {
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  right: 14px;
+  top: 16px;
+}
+.dropdown-arrow::before, .dropdown-arrow::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  width: 2px;
+  height: 100%;
+  transition: all 0.5s;
+  background-color: white;
+}
+.dropdown-arrow::before {
+  left: -1px;
+  rotate: 45deg;
+  transform: rotate(45deg);
+}
+.dropdown-arrow::after {
+  left: 5px;
+  rotate: -45deg;
+  transform: rotate(-45deg);
 }
 
 /*# sourceMappingURL=style.css.map */

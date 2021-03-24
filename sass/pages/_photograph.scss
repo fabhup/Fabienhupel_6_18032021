@@ -47,6 +47,8 @@
     & .btn-contact {
         @include primary-color-style;
         height: 50px;
+        padding: 2.5px 9px;
+        font-size: 0.75rem;
 
         @media (max-width: 768px) {
             position: fixed;
@@ -55,5 +57,111 @@
             right: 0;
             margin: auto;
             }
+    }
+}
+
+.photographer-gallery {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width:100%;
+    margin: 20px;
+    color: $colour-primary;
+
+    & .thumb-imgfull {
+        max-width:350px;
+        margin: 10px;
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        & .thumb-img {
+            width: 350px;
+            height: 300px; 
+            object-fit: cover;
+        }
+        & span {
+            margin: 5px;
+        }
+        & .likes {
+            margin: 2px;
+        }
+        & svg {
+            width:18px;
+            position:relative;
+            right:0;
+            top:4px;
+            & path {fill: $colour-primary;}
+        }
+    }
+}
+
+.dropdown {
+    display: flex;
+    justify-content: flex-start;
+    width:100%;
+    margin: 20px;
+    position:relative;
+
+    &-title {
+        margin: 10px;
+    }
+    &-content {
+    @include primary-color-style;
+    font-size: 0.9rem;
+    width: 130px;
+    position:absolute;
+    left:100px;
+    }
+    &-opened {
+        // display: none;
+        display: none;
+        flex-direction:column;  
+        padding: 0px 2px 12px;
+    }
+    &-closed {
+        // display: none;
+        flex-direction:column;  
+        padding: 12px 15px;
+    }
+
+    &-option {
+        margin: 8px 3px 0px;
+        border-top: 1px solid $colour-background-primary-font;
+        padding: 10px 10px 6px;
+        &.selected {
+            order: -1;
+            border-top: none;
+            margin: 8px 3px 0px;
+            padding: 4px 10px 6px;
+        }
+    }
+
+    &-arrow {
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        right: 14px;
+        top: 16px;
+        
+        &::before, &::after {
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            width: 2px;
+            height: 100%;
+            transition: all 0.5s;
+            background-color: $colour-background-primary-font;
+        }
+        &::before {
+            left: -1px;
+            rotate: 45deg;
+            transform: rotate(45deg);
+        }
+        &::after {
+            left: 5px;
+            rotate: -45deg;
+            transform: rotate(-45deg);
+        }
     }
 }
