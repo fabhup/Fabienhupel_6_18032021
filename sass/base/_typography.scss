@@ -19,7 +19,10 @@ h1, h2 {
   font-weight: 400;
   font-size: calc(1rem + 1.4vw);
   @media (max-width: 768px) {
-    font-size: calc(0.6rem + 2vw);
+    font-size: calc(1rem + 2vw);
+    }
+  @media (max-width: 350px) {
+    font-size: calc(1rem + 1vw);
     }
 }
 

@@ -7,6 +7,9 @@
     justify-content: center ;
     align-items: flex-start;
     flex-wrap: wrap;
+    @media (max-width: 768px) {
+        padding: 0;
+        }
 }
 
 .thumb-photographer {

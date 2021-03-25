@@ -13,7 +13,7 @@
     text-align: center;
     & li {
         display: inline-block;
-        margin: 5px 4px 
+        margin: 0px 4px 0px;
     }
 }
 }
@@ -24,6 +24,16 @@
   border-radius: 3px;
   border:none;
   cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
+}
+
+@mixin secondary-color-style {
+  background-color: $colour-background-secondary;
+  color: $colour-background-secondary-font;
+  border-radius: 3px;
+  border:none;
   -webkit-appearance: none;
   -moz-appearance: none;
   text-decoration: none;

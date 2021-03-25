@@ -2,21 +2,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $layout-margin*2 $layout-margin*2 $layout-margin*2 $layout-margin*2;
+  padding: $layout-margin $layout-margin $layout-margin/2;
   max-width:1400px;
   &-logo {
     & svg {
-    width: 20vw;
-
+    width: 200px;
+    margin-right: 10px;
     @media (max-width: 768px) {
-      width: 35vw;
+      width: 150px;
       min-width:90px;
       }
     }
   }
 
   @media (max-width: 768px) {
-    padding: $layout-margin $layout-margin $layout-margin $layout-margin;
+    padding: $layout-margin/2 $layout-margin/2 $layout-margin/4;
+    flex-wrap: wrap;
+    }
+
+  @media (max-width: 350px) {
+    padding: $layout-margin/2 $layout-margin/2 $layout-margin/4;
     flex-wrap: wrap;
     }
 

@@ -35,7 +35,12 @@ h1, h2 {
 }
 @media (max-width: 768px) {
   h1, h2 {
-    font-size: calc(0.6rem + 2vw);
+    font-size: calc(1rem + 2vw);
+  }
+}
+@media (max-width: 350px) {
+  h1, h2 {
+    font-size: calc(1rem + 1vw);
   }
 }
 
@@ -64,8 +69,9 @@ a {
   border: 0.5px solid #C4C4C4;
   box-sizing: border-box;
   border-radius: 11px;
-  padding: 2.5px 9px;
-  font-size: 0.75rem;
+  padding: 0.5px 9px 1px;
+  margin: 4px 0px;
+  font-size: calc(0.6rem + 0.4vw);
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -94,32 +100,39 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 40px 40px 40px;
+  padding: 40px 40px 20px;
   max-width: 1400px;
 }
 .header-logo svg {
-  width: 20vw;
+  width: 200px;
+  margin-right: 10px;
 }
 @media (max-width: 768px) {
   .header-logo svg {
-    width: 35vw;
+    width: 150px;
     min-width: 90px;
   }
 }
 @media (max-width: 768px) {
   .header {
-    padding: 20px 20px 20px 20px;
+    padding: 20px 20px 10px;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 350px) {
+  .header {
+    padding: 20px 20px 10px;
     flex-wrap: wrap;
   }
 }
 
 .footer {
-  padding: 20px 20px 30px 20px;
+  padding: 40px 40px 60px 40px;
 }
 
 @media screen and (min-width: 768px) {
   .footer {
-    padding: 20px 200px 40px 200px;
+    padding: 40px 400px 80px 400px;
   }
 }
 .header-navigation {
@@ -137,7 +150,7 @@ a {
 }
 .header-navigation ul li {
   display: inline-block;
-  margin: 5px 4px;
+  margin: 0px 4px 0px;
 }
 @media (max-width: 768px) {
   .header-navigation {
@@ -158,11 +171,16 @@ a {
 }
 
 .content {
-  padding: 0 20px 20px 20px;
+  padding: 0 40px 40px 40px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
+}
+@media (max-width: 768px) {
+  .content {
+    padding: 0;
+  }
 }
 
 .thumb-photographer {
@@ -215,7 +233,7 @@ a {
 }
 .thumb-photographer .photographer-tags ul li {
   display: inline-block;
-  margin: 5px 4px;
+  margin: 0px 4px 0px;
 }
 
 .photographer-header {
@@ -224,33 +242,51 @@ a {
 }
 
 .photographer-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
   margin: 20px;
   padding: 20px 40px;
   text-align: left;
   background-color: #FAFAFA;
   width: 100%;
+  border-radius: 5px;
+  overflow: auto;
+}
+@media (max-width: 768px) {
+  .photographer-header {
+    padding: 10px 10px 10px 20px;
+    margin: 10px;
+    background-color: white;
+  }
+}
+@media (max-width: 350px) {
+  .photographer-header {
+    margin: 0;
+  }
 }
 .photographer-header img {
-  width: 120px;
-  min-width: 120px;
-  height: 120px;
+  width: calc(120px + 2vw);
+  min-width: calc(120px + 2vw);
+  height: calc(120px + 2vw);
   border-radius: 100%;
   object-fit: cover;
+  float: right;
+  shape-outside: circle();
+  clip-path: circle();
+  padding-left: 10px;
 }
 .photographer-header .photographer-profile {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+}
+.photographer-header .photographer-profile span {
+  margin: 10px 0px;
 }
 .photographer-header .photographer-profile__location {
+  display: block;
   color: #901C1C;
-  font-size: calc(0.75rem + 0.5vw);
+  font-size: calc(0.8rem + 0.5vw);
   margin-bottom: 3px;
 }
 .photographer-header .photographer-profile__tagline {
+  display: block;
   color: black;
   font-size: calc(0.5rem + 0.3vw);
   margin-bottom: 3px;
@@ -260,7 +296,9 @@ a {
   font-size: calc(0.5rem + 0.3vw);
 }
 .photographer-header .photographer-tags {
-  display: flex;
+  display: block;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 .photographer-header .photographer-tags ul {
   list-style: none;
@@ -268,10 +306,12 @@ a {
 }
 .photographer-header .photographer-tags ul li {
   display: inline-block;
-  margin: 5px 4px;
+  margin: 0px 4px 0px;
 }
 .photographer-header .photographer-tags ul {
+  margin-top: 10px;
   text-align: left;
+  display: block;
 }
 .photographer-header .btn-contact {
   background-color: #901C1C;
@@ -283,12 +323,17 @@ a {
   -moz-appearance: none;
   text-decoration: none;
   height: 50px;
-  padding: 2.5px 9px;
-  font-size: 0.75rem;
+  padding: 5px 10px;
+  font-size: calc(0.75rem + 0.2vw);
+  margin: 10px calc(20vw - 100px) 20px 20px;
+  width: max-content;
+  white-space: nowrap;
+  float: right;
 }
 @media (max-width: 768px) {
   .photographer-header .btn-contact {
     position: fixed;
+    z-index: 999;
     bottom: 10px;
     left: 0;
     right: 0;
@@ -302,34 +347,72 @@ a {
   align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  margin: 20px;
+  margin: 10px 20px;
   color: #901C1C;
 }
 .photographer-gallery .thumb-imgfull {
-  max-width: 350px;
-  margin: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  width: 300px;
+  margin: calc(10px + 0.5rem) 10px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+.photographer-gallery .thumb-imgfull:hover {
+  transform: scale(1.05);
+}
+@media screen and (max-width: 350px) {
+  .photographer-gallery .thumb-imgfull {
+    width: 90vw;
+  }
 }
 .photographer-gallery .thumb-imgfull .thumb-img {
-  width: 350px;
+  width: 100%;
   height: 300px;
   object-fit: cover;
+  border-radius: 5px;
+}
+.photographer-gallery .thumb-imgfull .thumb-img__likes {
+  float: right;
+  shape-outside: padding-box;
+  padding: 3px 2px 0px 4px;
+  line-height: 1.6rem;
+}
+.photographer-gallery .thumb-imgfull .thumb-img__likes[data-likes]::before {
+  content: attr(data-likes);
+}
+.photographer-gallery .thumb-imgfull .thumb-img__price {
+  float: right;
+  shape-outside: padding-box;
+}
+.photographer-gallery .thumb-imgfull .thumb-img__title {
+  width: 100%;
+  display: block;
 }
 .photographer-gallery .thumb-imgfull span {
-  margin: 5px;
-}
-.photographer-gallery .thumb-imgfull .likes {
-  margin: 2px;
+  margin: 6px 5px 0px;
 }
 .photographer-gallery .thumb-imgfull svg {
-  width: 18px;
+  width: 1rem;
   position: relative;
-  right: 0;
   top: 4px;
+  margin-left: 3px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.1s ease-in;
 }
 .photographer-gallery .thumb-imgfull svg path {
+  fill: white;
+  stroke: #901C1C;
+  stroke-width: 2px;
+  transition: fill 1s ease-in-out;
+}
+.photographer-gallery .thumb-imgfull svg:hover {
+  transform: scale(1.1);
+}
+.photographer-gallery .thumb-imgfull .liked {
+  transform: scale(1);
+}
+.photographer-gallery .thumb-imgfull .liked path {
   fill: #901C1C;
 }
 
@@ -339,9 +422,16 @@ a {
   width: 100%;
   margin: 20px;
   position: relative;
+  z-index: 99;
+}
+@media screen and (max-width: 768px) {
+  .dropdown {
+    margin: 10px 0px 10px;
+  }
 }
 .dropdown-title {
-  margin: 10px;
+  margin: 10px 10px 10px 20px;
+  font-size: calc(0.7rem + 0.3vw);
 }
 .dropdown-content {
   background-color: #901C1C;
@@ -352,12 +442,20 @@ a {
   -webkit-appearance: none;
   -moz-appearance: none;
   text-decoration: none;
-  font-size: 0.9rem;
-  width: 130px;
+  font-size: calc(0.6rem + 0.3vw);
+  width: calc(80px + 3rem);
   position: absolute;
-  left: 100px;
+  left: calc(80px + 1.8rem);
 }
 .dropdown-opened {
+  background-color: #901C1C;
+  color: white;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
   display: none;
   flex-direction: column;
   padding: 0px 2px 12px;
@@ -402,6 +500,48 @@ a {
   left: 5px;
   rotate: -45deg;
   transform: rotate(-45deg);
+}
+
+.photographer-main-data {
+  background-color: #DB8876;
+  color: black;
+  border-radius: 3px;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
+  position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  bottom: 0;
+  right: 40px;
+  width: calc(250px + 4rem);
+  height: calc(30px + 1rem);
+  vertical-align: middle;
+}
+.photographer-main-data__likes {
+  margin: 20px 5px 20px 20px;
+  width: 20%;
+  text-align: right;
+}
+.photographer-main-data svg {
+  width: 15px;
+}
+.photographer-main-data__price {
+  text-align: right;
+  width: 40%;
+  margin: 20px;
+}
+@media screen and (max-width: 768px) {
+  .photographer-main-data {
+    display: none;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .photographer-main-data {
+    right: calc((100vw - 1400px)/2 + 40px);
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,31 +1,47 @@
 
 .photographer-header {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items:flex-start;
     margin: 20px;
     padding: 20px 40px;
     text-align: left;
     background-color: $colour-background-light;
     width: 100%;
+    border-radius: 5px;
+    overflow: auto;
+
+    @media (max-width: 768px) {
+        padding: 10px 10px 10px 20px;
+        margin: 10px;
+        background-color: white;
+        }
+
+    @media (max-width: 350px) {
+        margin: 0;
+        }
     & img {
-            width: 120px;
-            min-width: 120px;
-            height: 120px;
+            width: calc(120px + 2vw);
+            min-width: calc(120px + 2vw);
+            height: calc(120px + 2vw);
             border-radius: 100%;
             object-fit: cover;
+            float: right;
+            shape-outside: circle();
+            clip-path: circle();
+            padding-left: 10px;
         }
 
     & .photographer-profile {
-        display:flex;
-        flex-direction: column;
+        width:100%;
+        & span {
+            margin: 10px 0px;
+        }
         &__location {
+            display: block;
             color: $colour-primary;
-            font-size: calc(0.75rem + 0.5vw);
+            font-size: calc(0.8rem + 0.5vw);
             margin-bottom: 3px;
         }
         &__tagline {
+            display: block;
             color: black;
             font-size: calc(0.5rem + 0.3vw);
             margin-bottom: 3px;
@@ -37,21 +53,31 @@
     }
 
     & .photographer-tags {
-        display:flex;
+        display:block;
         @include tagslist-style;
+        flex-wrap: nowrap;
+        width:100%;
+        
         & ul {
+            margin-top:10px;
             text-align: left;
+            display: block;
+            
         }
     }
 
     & .btn-contact {
         @include primary-color-style;
         height: 50px;
-        padding: 2.5px 9px;
-        font-size: 0.75rem;
-
+        padding: 5px 10px;
+        font-size: calc(0.75rem + 0.2vw);
+        margin: 10px calc(20vw - 100px) 20px 20px;
+        width: max-content;
+        white-space: nowrap;
+        float:right;
         @media (max-width: 768px) {
             position: fixed;
+            z-index: 999;
             bottom: 10px;
             left: 0;
             right: 0;
@@ -66,32 +92,73 @@
     align-items: flex-start;
     flex-wrap: wrap;
     width:100%;
-    margin: 20px;
+    margin: 10px 20px;
     color: $colour-primary;
 
     & .thumb-imgfull {
-        max-width:350px;
-        margin: 10px;
-        display:flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        width:300px;
+        margin: calc(10px + 0.5rem) 10px;
+        cursor: pointer;
+        transform: scale(1);
+        transition: transform 0.2s ease-in-out;
+        &:hover {
+            transform: scale(1.05);
+        }
+        @media screen and (max-width: 350px) {
+            width: 90vw;
+        }
+        
         & .thumb-img {
-            width: 350px;
-            height: 300px; 
+            width: 100%;
+            height: 300px;
             object-fit: cover;
+            border-radius: 5px;
+            &__likes {
+                float: right;
+                shape-outside:padding-box;
+                padding: 3px 2px 0px 4px;
+                line-height: 1.6rem;
+                &[data-likes]::before { 
+                    content: attr(data-likes);
+                }
+            }
+            &__price {
+                float: right;
+                shape-outside:padding-box;
+            }
+            &__title {
+                width:100%;
+                display: block;
+            }
         }
         & span {
-            margin: 5px;
+            margin: 6px 5px 0px;
         }
-        & .likes {
-            margin: 2px;
-        }
+        
         & svg {
-            width:18px;
-            position:relative;
-            right:0;
-            top:4px;
-            & path {fill: $colour-primary;}
+            width: 1rem;
+            position: relative;
+            top: 4px;
+            margin-left: 3px;
+            cursor: pointer;
+            transform: scale(1);
+            transition: transform 0.100s ease-in;
+            & path {
+                fill: $colour-background-primary-font;
+                stroke: $colour-primary;
+                stroke-width: 2px;
+                transition: fill 1s ease-in-out;
+            }
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        & .liked {
+            transform: scale(1);
+            & path {
+                fill: $colour-background-primary;
+            }
         }
     }
 }
@@ -102,25 +169,29 @@
     width:100%;
     margin: 20px;
     position:relative;
+    z-index: 99;
+    @media screen and (max-width: 768px) {
+        margin: 10px 0px 10px
+    }
 
     &-title {
-        margin: 10px;
+        margin: 10px 10px 10px 20px;
+        font-size: calc(0.7rem + 0.3vw);
     }
     &-content {
     @include primary-color-style;
-    font-size: 0.9rem;
-    width: 130px;
+    font-size: calc(0.6rem + 0.3vw);
+    width: calc(80px + 3rem);
     position:absolute;
-    left:100px;
+    left:calc(80px + 1.8rem);;
     }
     &-opened {
-        // display: none;
+        @include primary-color-style;
         display: none;
         flex-direction:column;  
         padding: 0px 2px 12px;
     }
     &-closed {
-        // display: none;
         flex-direction:column;  
         padding: 12px 15px;
     }
@@ -163,5 +234,38 @@
             rotate: -45deg;
             transform: rotate(-45deg);
         }
+    }
+}
+
+.photographer-main-data {
+    @include secondary-color-style; 
+    position: fixed;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    bottom: 0;
+    right: 40px;
+    width: calc(250px + 4rem);
+    height: calc(30px + 1rem);
+    vertical-align: middle;
+
+    &__likes {
+        margin:20px 5px 20px 20px;
+        width:20%;
+        text-align: right;
+    }
+    & svg {
+        width: 15px;
+    }
+    &__price {
+        text-align: right;
+        width:40%;
+        margin:20px;
+    }
+    @media screen and (max-width: 768px) {
+        display:none;
+    }
+    @media screen and (min-width: 1400px) {
+        right: calc((100vw - 1400px)/2 + 40px);
     }
 }
