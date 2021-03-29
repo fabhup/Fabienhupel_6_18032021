@@ -155,10 +155,10 @@ function createElementsOnMediasData(mediasData) {
 
         if (mediaData.image) {
             let imgMedia = document.createElement("img");
-            imgMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.image + "?tr=w-400,h-300,bl-30,q-50"));
+            imgMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.image));
             imgMedia.setAttribute("alt", mediaData.title);
             imgMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            imgMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex + 1})`);
+            imgMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             imgMedia.classList.add("thumb-img");
             divMedia.appendChild(imgMedia);
 
@@ -173,7 +173,7 @@ function createElementsOnMediasData(mediasData) {
             videoMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.video + '#t=0.1'));
             videoMedia.setAttribute("alt",mediaData.title);
             videoMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            videoMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex + 1})`);
+            videoMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             videoMedia.classList.add("thumb-img");
             divMedia.appendChild(videoMedia);
 
@@ -357,25 +357,21 @@ function openLightbox() {
     document.getElementById("lightbox").style.display = "none";
   }
   
-let slideIndex = 1;
-showMediaIndex(slideIndex);
-
-const currentImageElement = document.getElementById("lightbox__current-image");
-currentImageElement.setAttribute('src',srcImage);
+let mediaIndex = 0;
+showMediaIndex(mediaIndex);
 
 function showMediaIndex(n) {
-let i;
-slideIndex = n;
-const imagesLightbox = document.getElementsByClassName("lightbox-imgfull");
-if (n > imagesLightbox.length) {slideIndex = 1}
-if (n < 1) {slideIndex = imagesLightbox.length}
-for (i = 0; i < imagesLightbox.length; i++) {
-    imagesLightbox[i].style.display = "none";
-}
-imagesLightbox[slideIndex-1].style.display = "block";
+    let i;
+    mediaIndex = n;
+    const imagesLightbox = document.getElementsByClassName("lightbox-imgfull");
+    if (n > imagesLightbox.length-1) {mediaIndex = 0}
+    if (n < 0) {mediaIndex = imagesLightbox.length-1}
+    for (i = 0; i < imagesLightbox.length; i++) {
+        (i!=mediaIndex) ? imagesLightbox[i].style.display = "none" : imagesLightbox[i].style.display = "block";
+    }
 }
 
 // Next/previous controls
 function moveIndex(n) {
-    showMediaIndex(slideIndex += n);
+    showMediaIndex(mediaIndex += n);
 }

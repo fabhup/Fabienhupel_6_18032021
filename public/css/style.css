@@ -357,8 +357,12 @@ a {
   transform: scale(1);
   transition: transform 0.2s ease-in-out;
 }
-.photographer-gallery .thumb-imgfull:hover {
+.photographer-gallery .thumb-imgfull:hover, .photographer-gallery .thumb-imgfull:active, .photographer-gallery .thumb-imgfull:focus {
   transform: scale(1.05);
+  -webkit-tap-highlight-color: transparent;
+}
+.photographer-gallery .thumb-imgfull:active {
+  outline: none !important;
 }
 @media screen and (max-width: 350px) {
   .photographer-gallery .thumb-imgfull {
