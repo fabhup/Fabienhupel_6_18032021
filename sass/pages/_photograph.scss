@@ -72,7 +72,7 @@
         padding: 5px 10px;
         font-size: calc(0.75rem + 0.2vw);
         margin: 10px calc(20vw - 100px) 20px 20px;
-        width: max-content;
+        width: calc(110px + 2.5rem + 1vw);
         white-space: nowrap;
         float:right;
         @media (max-width: 768px) {
@@ -88,7 +88,7 @@
 
 .photographer-gallery {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
     width:100%;
@@ -144,7 +144,7 @@
             transform: scale(1);
             transition: transform 0.100s ease-in;
             & path {
-                fill: $colour-background-primary-font;
+                fill: transparent;
                 stroke: $colour-primary;
                 stroke-width: 2px;
                 transition: fill 1s ease-in-out;
@@ -181,9 +181,9 @@
     &-content {
     @include primary-color-style;
     font-size: calc(0.6rem + 0.3vw);
-    width: calc(80px + 3rem);
+    width: calc(60px + 3rem + 2vw);
     position:absolute;
-    left:calc(80px + 1.8rem);;
+    left:calc(50px + 2rem + 2vw);;
     }
     &-opened {
         @include primary-color-style;
@@ -210,29 +210,19 @@
 
     &-arrow {
         position: absolute;
-        height: 10px;
-        width: 10px;
-        right: 14px;
-        top: 16px;
+        height: 20px;
+        width: 20px;
+        right: 5px;
+        top: 14px;
+        z-index: 1000;
         
-        &::before, &::after {
-            content: "";
-            position: absolute;
-            bottom: 0px;
-            width: 2px;
-            height: 100%;
-            transition: all 0.5s;
-            background-color: $colour-background-primary-font;
-        }
-        &::before {
-            left: -1px;
-            rotate: 45deg;
-            transform: rotate(45deg);
-        }
-        &::after {
-            left: 5px;
-            rotate: -45deg;
-            transform: rotate(-45deg);
+        & svg {
+            width: 10px;
+            height: 10px;
+            transform: rotate(90deg);
+            path {
+                fill: $colour-background-primary-font;
+            }
         }
     }
 }
@@ -248,7 +238,7 @@
     width: calc(250px + 4rem);
     height: calc(30px + 1rem);
     vertical-align: middle;
-
+    z-index: 99;
     &__likes {
         margin:20px 5px 20px 20px;
         width:20%;
@@ -269,3 +259,65 @@
         right: calc((100vw - 1400px)/2 + 40px);
     }
 }
+
+.lightbox { 
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    &-content {
+        position: relative;
+    }
+    &-imgfull {
+        width: 85vmin;
+        height: 85vmin;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+
+        &__title {
+            color: $colour-primary;
+            font-size: calc(1rem + 0.2vw);
+        }
+    } 
+    
+    img, video {
+        width:100%;
+        height:100%;
+        object-fit: cover;
+        border-radius: 5px;
+
+    }
+
+    .icon-prev, .icon-next, .icon-close  {
+        margin: 0px 2vmin;
+        cursor: pointer;
+        svg {
+            width: 4vmin;
+        }
+        path {
+            fill: $colour-primary;
+        }
+    }
+    & .icon-close  {
+        position: absolute;
+        margin:0;
+        top: -2vmin;
+        right: -6vmin;
+    }
+
+    & .icon-prev  {
+        order:-1;
+        transform: rotate(180deg);
+    }
+
+  }

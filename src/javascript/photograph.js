@@ -123,8 +123,11 @@ function createElementsOnPhotographData(photographerData) {
  */
 function createElementsOnMediasData(mediasData) {
     const photographerGallery = document.getElementById('photographer-gallery');
-    const urlImagesMedia = "./public/images/photographers/medias/large/" + getParameterByName('id') + '/';
+    const urlImagesMedia = "./public/images/photographers/medias/";
+    const urlImagesMediaPhotographerSmall = urlImagesMedia + "small/" + getParameterByName('id') + '/';
+    const urlImagesMediaPhotographerLarge = urlImagesMedia + "large/" + getParameterByName('id') + '/';
     const mainDataTotalLikesElement = document.getElementById('photographer-main-data__likes');
+    const lightBoxContent = document.getElementById('lightbox-content');
     
     function getTotalLikes() {
         let totalLikes = 0;
@@ -133,9 +136,10 @@ function createElementsOnMediasData(mediasData) {
         return totalLikes
     }
 
-    for (media in mediasData) {
-        const mediaData = mediasData[media]
-
+    for (mediaIndex in mediasData) {
+        
+        const mediaData = mediasData[mediaIndex]
+     
         let divMedia = document.createElement("div");
         divMedia.classList.add("thumb-imgfull");
         divMedia.setAttribute("data-likes",mediaData.likes);
@@ -145,21 +149,42 @@ function createElementsOnMediasData(mediasData) {
         divMedia.setAttribute("data-title",mediaData.title);
         photographerGallery.appendChild(divMedia);
 
+        let divMediaLightbox = document.createElement("div");
+        divMediaLightbox.classList.add("lightbox-imgfull");
+        lightBoxContent.appendChild(divMediaLightbox);
+
         if (mediaData.image) {
-        let imgMedia = document.createElement("img");
-        imgMedia.setAttribute("src",(urlImagesMedia + mediaData.image));
-        imgMedia.setAttribute("alt","");
-        // imgMedia.setAttribute("loading","lazy");
-        imgMedia.classList.add("thumb-img");
-        divMedia.appendChild(imgMedia);
+            let imgMedia = document.createElement("img");
+            imgMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.image + "?tr=w-400,h-300,bl-30,q-50"));
+            imgMedia.setAttribute("alt", mediaData.title);
+            imgMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            imgMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex + 1})`);
+            imgMedia.classList.add("thumb-img");
+            divMedia.appendChild(imgMedia);
+
+            let imgMediaLightbox = document.createElement("img");
+            imgMediaLightbox.setAttribute("alt", mediaData.title);
+            imgMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.image));
+            imgMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            divMediaLightbox.appendChild(imgMediaLightbox);
         }
         else if (mediaData.video) {
             let videoMedia = document.createElement("video");
-            videoMedia.setAttribute("src",(urlImagesMedia + mediaData.video));
+            videoMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.video + '#t=0.1'));
             videoMedia.setAttribute("alt",mediaData.title);
+            videoMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            videoMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex + 1})`);
             videoMedia.classList.add("thumb-img");
             divMedia.appendChild(videoMedia);
+
+            let videoMediaLightbox = document.createElement("video");
+            videoMediaLightbox.setAttribute("alt", mediaData.title);
+            videoMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.video + '#t=0.1'));
+            videoMediaLightbox.setAttribute("controls","controls");
+            videoMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            divMediaLightbox.appendChild(videoMediaLightbox);
         } 
+
         let priceMedia = document.createElement("span");
         priceMedia.textContent = mediaData.price + ' €';
         priceMedia.classList.add("thumb-img__price");
@@ -181,25 +206,27 @@ function createElementsOnMediasData(mediasData) {
         titleMedia.classList.add("thumb-img__title");
         divMedia.appendChild(titleMedia);
 
-        
-        }
-        mainDataTotalLikesElement.textContent = getTotalLikes()
+        let titleMediaLightbox = document.createElement("span");
+        titleMediaLightbox.textContent = mediaData.title;
+        titleMediaLightbox.classList.add("lightbox-imgfull__title");
+        divMediaLightbox.appendChild(titleMediaLightbox);
+    }
+    
+    mainDataTotalLikesElement.textContent = getTotalLikes()
 
-        const likeIcones = document.querySelectorAll(".thumb-img__like-icone");
-        likeIcones.forEach((element) =>    
-            element.addEventListener("click", function() {
-                if (element.classList.contains('liked')) {
-                    element.classList.remove('liked'); 
-                    element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) - 1 )
-                    mainDataTotalLikesElement.textContent = getTotalLikes()
-                }
-                else {
-                    element.classList.add('liked'); 
-                    element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) + 1 )
-                    mainDataTotalLikesElement.textContent = getTotalLikes()
-                }  
-            })
-        );
+    const likeIcones = document.querySelectorAll(".thumb-img__like-icone");
+    likeIcones.forEach((element) => element.addEventListener("click", function() {
+        if (element.classList.contains('liked')) {
+            element.classList.remove('liked'); 
+            element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) - 1 )
+            mainDataTotalLikesElement.textContent = getTotalLikes()
+        }
+        else {
+            element.classList.add('liked'); 
+            element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) + 1 )
+            mainDataTotalLikesElement.textContent = getTotalLikes()
+        }  
+    }));
 }
 
 
@@ -317,4 +344,38 @@ function filterMediasOnSelectedTag() {
         buttonElement.setAttribute('aria-pressed',"false");
     })
     this.blur(); // to make the focus disappear
+}
+
+
+// Open the LightBox Gallery
+function openLightbox() {
+    document.getElementById("lightbox").style.display = "flex";
+  }
+  
+  // Close the LightBox Gallery
+  function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+  }
+  
+let slideIndex = 1;
+showMediaIndex(slideIndex);
+
+const currentImageElement = document.getElementById("lightbox__current-image");
+currentImageElement.setAttribute('src',srcImage);
+
+function showMediaIndex(n) {
+let i;
+slideIndex = n;
+const imagesLightbox = document.getElementsByClassName("lightbox-imgfull");
+if (n > imagesLightbox.length) {slideIndex = 1}
+if (n < 1) {slideIndex = imagesLightbox.length}
+for (i = 0; i < imagesLightbox.length; i++) {
+    imagesLightbox[i].style.display = "none";
+}
+imagesLightbox[slideIndex-1].style.display = "block";
+}
+
+// Next/previous controls
+function moveIndex(n) {
+    showMediaIndex(slideIndex += n);
 }
