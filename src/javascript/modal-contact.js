@@ -14,10 +14,10 @@ const emailInput = document.getElementById("email");
 const messageInput = document.getElementById("message");
 
 // Messages Elements
-const errorFirstnameLength = "Veuillez entrer 2 caractères ou plus pour le champ du prénom.";
-const errorLastnameLength = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+const errorFirstnameLength = "Veuillez entrer un prénom de 2 caractères ou plus.";
+const errorLastnameLength = "Veuillez entrer un nom de 2 caractères ou plus.";
 const errorEmailFormat = "Veuillez saisir un email valide.";
-const errorMessageLength = "Veuillez entrer un message de 10 caractères minimum.";
+const errorMessageLength = "Votre message doit comprendre entre 10 et 300 caractères.";
 
 // Regex Formats
 const emailRegexFormat = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;

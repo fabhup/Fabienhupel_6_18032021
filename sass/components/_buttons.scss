@@ -21,7 +21,7 @@
 .btn-contact, .btn-submit, .btn-close {
   @include primary-color-style;
   @include btn;
-  height: 50px;
+  height: 2.5rem;
   padding: 5px 10px;
   font-size: calc(0.75rem + 0.2vw);
   margin: 10px calc(20vw - 100px) 20px 20px;
@@ -48,6 +48,6 @@
   @media (max-width: 768px) {
     left: 0;
     right: 0;
-    margin: 10px auto;
+    margin: 20px auto 10px;
     }
 }
