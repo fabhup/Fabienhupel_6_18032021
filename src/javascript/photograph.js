@@ -1,18 +1,10 @@
-
 // Variables declaration
 const url = './src/data/database.json'
-const formatSortingOptions = {
-    "likes": "number",
-    "date": "string",
-    "title": "string"
-  };
 
 // DOM Elements variables
 const photographerGallery = document.getElementById('photographer-gallery');
-const dropdownOpened = document.getElementById("dropdown-opened");
-const dropdownClosed = document.getElementById("dropdown-closed");
-const dropdownOptions = document.querySelectorAll(".dropdown-option"); 
-const dropdownLabel= document.getElementById("dropdown-label");
+const modalContactTitle = document.getElementById('modal-contact__title');
+const spanmodalContactConfirmMessage = document.getElementById('confirm-message');
 
 // Get current Id Photograph (to filter data on this id)
 const filtersDataPhotograph = { 
@@ -23,44 +15,35 @@ const filtersDataMedia = {
 };
 
 /**
- * Function to Extract Data from an url of json file
- * @param {string} urlJSON 
- * @param {string} dataToExtract 
- */
-
-const getData = (urlJSON, dataToExtract) => {
-  return fetch(urlJSON)
-    .then((response) => response.json())
-    .catch((errorFetch) => console.log(`Erreur réseau avec l'url ${url}`, errorFetch))
-    .then(jsonResponse => {
-        return jsonResponse[dataToExtract]
-    })
-    .catch(errorGetMedia => console.log("Requête invalide", errorGetMedia))
-}
-
-/**
- * Filter data parameter on each filters parameters 
- * @param {object} data 
- * @param {object} filters -- ex {"id": 112}
- */
-const filterData = (data, filters) => (data.filter(data => 
-    Object.keys(filters).every(key => filters[key](data[key]))))
-
-/**
- * Function to extract a parameter value in an url from the name of the parameter
+ * function that display or hide html elements depending on selected tag button 
  * 
- * @param {string} name 
- * @param {string} url 
- * @return {string}
  */
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+function filterMediasOnSelectedTag() {
+    const eltClasses = this.className.split(' ');
+    const selectedTagName = eltClasses.filter(x => x.startsWith('btn-tag--'))[0].replace('btn-tag--','');
+    const medias = document.querySelectorAll('.thumb-imgfull');
+    const buttonsTagsPressed = document.querySelectorAll('button[class~="btn-tag"][aria-pressed="true"]');
+
+    if (this.getAttribute('aria-pressed')=="true") {
+        medias.forEach((media) => { 
+            media.classList.remove('hidden')
+        })
+    }
+    else {
+        this.setAttribute('aria-pressed',"true");
+        medias.forEach((media) => { 
+            media.classList.remove('hidden');
+            console.log(media.getAttribute('data-tags'));
+            console.log(selectedTagName);
+            if (media.getAttribute('data-tags') != selectedTagName) {
+                media.classList.add('hidden')
+            }
+        })
+    }
+    buttonsTagsPressed.forEach((buttonElement) => { 
+        buttonElement.setAttribute('aria-pressed',"false");
+    })
+    this.blur(); // to make the focus disappear
 }
 
 /**
@@ -68,7 +51,7 @@ function getParameterByName(name, url) {
  * @param {object} photographerData 
  */
 function createElementsOnPhotographData(photographerData) {
-    const mainContentElement = document.getElementById('main-content');
+    
     const headerPhotographer = document.getElementById('photographer-header');
     const divPhotographerProfile = document.getElementById('photographer-profile');
     const h2PhotographerName = document.getElementById('photographer-profile__name');
@@ -110,6 +93,8 @@ function createElementsOnPhotographData(photographerData) {
     headerPhotographer.insertBefore(imgPhotographer,headerPhotographer.children[0]);
 
     mainDataPriceElement.textContent = photographerData.price + "€ / jour";
+    modalContactTitle.textContent += "\r\n" + photographerData.name;
+    spanmodalContactConfirmMessage.textContent += "\r\n" + photographerData.name
 
     //Event on Tags Buttons
     const buttonsSelectTag = document.querySelectorAll('button[class~="btn-tag"]');
@@ -140,14 +125,15 @@ function createElementsOnMediasData(mediasData) {
         
         const mediaData = mediasData[mediaIndex]
      
-        let divMedia = document.createElement("div");
-        divMedia.classList.add("thumb-imgfull");
-        divMedia.setAttribute("data-likes",mediaData.likes);
-        divMedia.setAttribute("data-date",mediaData.date);
-        divMedia.setAttribute("data-price",mediaData.price);
-        divMedia.setAttribute("data-tags",mediaData.tags);
-        divMedia.setAttribute("data-title",mediaData.title);
-        photographerGallery.appendChild(divMedia);
+        let articleMedia = document.createElement("article");
+        articleMedia.classList.add("thumb-imgfull");
+        articleMedia.setAttribute("aria-label",mediaData.title);
+        articleMedia.setAttribute("data-likes",mediaData.likes);
+        articleMedia.setAttribute("data-date",mediaData.date);
+        articleMedia.setAttribute("data-price",mediaData.price);
+        articleMedia.setAttribute("data-tags",mediaData.tags);
+        articleMedia.setAttribute("data-title",mediaData.title);
+        photographerGallery.appendChild(articleMedia);
 
         let divMediaLightbox = document.createElement("div");
         divMediaLightbox.classList.add("lightbox-imgfull");
@@ -160,7 +146,7 @@ function createElementsOnMediasData(mediasData) {
             imgMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
             imgMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             imgMedia.classList.add("thumb-img");
-            divMedia.appendChild(imgMedia);
+            articleMedia.appendChild(imgMedia);
 
             let imgMediaLightbox = document.createElement("img");
             imgMediaLightbox.setAttribute("alt", mediaData.title);
@@ -175,7 +161,7 @@ function createElementsOnMediasData(mediasData) {
             videoMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
             videoMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             videoMedia.classList.add("thumb-img");
-            divMedia.appendChild(videoMedia);
+            articleMedia.appendChild(videoMedia);
 
             let videoMediaLightbox = document.createElement("video");
             videoMediaLightbox.setAttribute("alt", mediaData.title);
@@ -188,12 +174,12 @@ function createElementsOnMediasData(mediasData) {
         let priceMedia = document.createElement("span");
         priceMedia.textContent = mediaData.price + ' €';
         priceMedia.classList.add("thumb-img__price");
-        divMedia.appendChild(priceMedia);
+        articleMedia.appendChild(priceMedia);
 
         let likesMedia = document.createElement("div");
         likesMedia.classList.add("thumb-img__likes");
         likesMedia.setAttribute("data-likes",mediaData.likes);
-        divMedia.appendChild(likesMedia);
+        articleMedia.appendChild(likesMedia);
 
         let likesIcone = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         likesIcone.setAttribute("viewBox","-2 -2 25 25");
@@ -204,7 +190,7 @@ function createElementsOnMediasData(mediasData) {
         let titleMedia = document.createElement("span");
         titleMedia.textContent = mediaData.title;
         titleMedia.classList.add("thumb-img__title");
-        divMedia.appendChild(titleMedia);
+        articleMedia.appendChild(titleMedia);
 
         let titleMediaLightbox = document.createElement("span");
         titleMediaLightbox.textContent = mediaData.title;
@@ -229,7 +215,6 @@ function createElementsOnMediasData(mediasData) {
     }));
 }
 
-
 /**
  * Function to get photographers and media Datas and update html (on promises)
  */
@@ -243,135 +228,6 @@ function loadData() {
     .then(extractData => (createElementsOnMediasData(extractData)))
 }
 
-/**
- * Function to sortHTMLElements according to the keySort choice, formatSort and orderSort
- * @param {string} keySort 
- * @param {string} formatSort -- ex : 'number', 'string'
- * @param {string} orderSort -- ex : 'asc', 'desc'
- */
-function sortData(keySort, formatSort, orderSort='asc') {
-    const mediasElements = document.getElementsByClassName('thumb-imgfull');
-    let mediasElementsArray = [];
-    for (var i in mediasElements) {
-        if (mediasElements[i].nodeType == 1) { 
-            mediasElementsArray.push(mediasElements[i]);
-        }
-    };
-    mediasElementsArray.sort(function(a, b) {
-      const aValue = a.getAttribute(`data-${keySort}`);
-      const bValue = b.getAttribute(`data-${keySort}`);
-      
-      if (formatSort == 'number' && orderSort == 'asc') { 
-        return aValue - bValue;
-      }
-      else if (formatSort == 'number') {
-        return bValue - aValue; 
-      }
-      else if (formatSort != 'number' && orderSort =='asc') {
-        if (aValue < bValue) {return -1}
-        else if (aValue > bValue) {return 1}
-        else {return 0}
-      }
-      else {
-        if (aValue > bValue) {return -1}
-        else if (aValue < bValue) {return 1} 
-        else {return 0}
-      }
-    });
-
-    for (el in mediasElementsArray) {
-        photographerGallery.appendChild(mediasElementsArray[el]);
-    };
-  }
-
-
 //Load Photograph and Media Data 
 loadData();
 
-//Events on dropdown elements
-
-//Event to display or hide dropdownOpened element on click
-dropdownOpened.addEventListener("click", function() {
-    dropdownOpened.style.display = 'none';
-    dropdownClosed.style.display = 'flex';
-})
-
-//Event to display or hide dropdownClosed element on click
-dropdownClosed.addEventListener("click", function() {
-    dropdownClosed.style.display = 'none';
-    dropdownOpened.style.display = 'flex';
-})
-
-//Events to sort or hide dropdownClosed element on click
-dropdownOptions.forEach((element) =>    
-    element.addEventListener("click", function() {
-        dropdownLabel.textContent = element.textContent;  // update textContent of dropdownLabel
-        dropdownOptions.forEach((elt) => elt.classList.remove('selected')) // remove selected class of dropdownOptions elements
-        element.classList.add('selected'); // add selected class on current element
-        const sortActive = element.getAttribute('data-value');
-        sortData(sortActive,formatSortingOptions[sortActive],"desc"); // sortData on sortActive option according to formatSortingOptions 
-    })
-);
-
-
-/**
- * function that display or hide html elements depending on selected tag button 
- * 
- */
-function filterMediasOnSelectedTag() {
-    const eltClasses = this.className.split(' ');
-    const selectedTagName = eltClasses.filter(x => x.startsWith('btn-tag--'))[0].replace('btn-tag--','');
-    const medias = document.querySelectorAll('.thumb-imgfull');
-    const buttonsTagsPressed = document.querySelectorAll('button[class~="btn-tag"][aria-pressed="true"]');
-
-    if (this.getAttribute('aria-pressed')=="true") {
-        medias.forEach((media) => { 
-            media.classList.remove('hidden')
-        })
-    }
-    else {
-        this.setAttribute('aria-pressed',"true");
-        medias.forEach((media) => { 
-            media.classList.remove('hidden');
-            console.log(media.getAttribute('data-tags'));
-            console.log(selectedTagName);
-            if (media.getAttribute('data-tags') != selectedTagName) {
-                media.classList.add('hidden')
-            }
-        })
-    }
-    buttonsTagsPressed.forEach((buttonElement) => { 
-        buttonElement.setAttribute('aria-pressed',"false");
-    })
-    this.blur(); // to make the focus disappear
-}
-
-
-// Open the LightBox Gallery
-function openLightbox() {
-    document.getElementById("lightbox").style.display = "flex";
-  }
-  
-  // Close the LightBox Gallery
-  function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
-  }
-  
-let mediaIndex = 0;
-showMediaIndex(mediaIndex);
-
-function showMediaIndex(n) {
-    let i;
-    mediaIndex = n;
-    const imagesLightbox = document.getElementsByClassName("lightbox-imgfull");
-    if (n > imagesLightbox.length-1) {mediaIndex = 0}
-    if (n < 0) {mediaIndex = imagesLightbox.length-1}
-    for (i = 0; i < imagesLightbox.length; i++) {
-        (i!=mediaIndex) ? imagesLightbox[i].style.display = "none" : imagesLightbox[i].style.display = "block";
-    }
-}
-
-// Next/previous controls
-function moveIndex(n) {
-    showMediaIndex(mediaIndex += n);
-}

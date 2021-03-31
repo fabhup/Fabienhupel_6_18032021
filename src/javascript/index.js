@@ -20,15 +20,16 @@ function createTagsNav(listOfTags) {
 
         let buttonTag = document.createElement("button");
         buttonTag.setAttribute("role","button");
+        buttonTag.setAttribute("aria-label",("filtre tag "+listOfTags[tag]));
         buttonTag.classList.add("btn-tag");
         buttonTag.classList.add("btn-tag--" + listOfTags[tag]);
         buttonTag.textContent = "#" + listOfTags[tag][0].toUpperCase() + listOfTags[tag].substring(1);
         liTag.appendChild(buttonTag);
         
-        let spanTag = document.createElement("span");
-        spanTag.classList.add("sr-only");
-        spanTag.textContent = 'Tag ' + listOfTags[tag];
-        liTag.appendChild(spanTag);
+        // let spanTag = document.createElement("span");
+        // spanTag.classList.add("sr-only");
+        // spanTag.textContent = 'Tag ' + listOfTags[tag];
+        // liTag.appendChild(spanTag);
     }
 }
 

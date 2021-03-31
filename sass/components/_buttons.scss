@@ -1,37 +1,53 @@
 
 .btn-tag {
+  @include btn;
   color: $colour-primary;
   background: transparent;
-  border: 0.5px solid $colour-border-btn-tag;
-  box-sizing: border-box;
   border-radius: 11px;
-  padding: 0.5px 9px 1px;
-  margin: 4px 0px;
-  font-size: calc(0.6rem + 0.4vw);
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-decoration: none;
-  overflow: hidden;
-  transform: scale(1);
-  transition: transform 0.1s ease-in;
-  
   &:hover, &:active, &:focus {
-    -webkit-tap-highlight-color: transparent;
     background: $colour-background-light;
-    transform: scale(1.08);
   }
-  &:active {
-    outline: none !important; 
+  &[role="button"] {
+    &[aria-pressed="true"]
+     {
+      color: $colour-background-primary-font;
+      background: $colour-background-primary;
+      border: 1px solid $colour-background-primary;
+      transform: scale(1.05);
+    }
   }
 }
 
-[role="button"] {
-  &[aria-pressed="true"]
-   {
-    color: $colour-background-primary-font;
-    background: $colour-background-primary;
-    border: 1px solid $colour-background-primary;
-    transform: scale(1.08);
-  }
+.btn-contact, .btn-submit, .btn-close {
+  @include primary-color-style;
+  @include btn;
+  height: 50px;
+  padding: 5px 10px;
+  font-size: calc(0.75rem + 0.2vw);
+  margin: 10px calc(20vw - 100px) 20px 20px;
+  width: calc(110px + 2.5rem + 1vw);
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1rem;
+}
+
+.btn-contact {
+  float:right;
+  @media (max-width: 768px) {
+      position: fixed;
+      z-index: 999;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      }
+}
+
+.btn-submit, .btn-close {
+  margin: 20px 0px 10px;
+  @media (max-width: 768px) {
+    left: 0;
+    right: 0;
+    margin: 10px auto;
+    }
 }

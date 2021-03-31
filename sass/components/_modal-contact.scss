@@ -1,0 +1,81 @@
+.modal-contact {
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: flex-start;
+    position: fixed;
+    overflow-y: scroll;
+    top:0;
+    right:0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.5);
+
+    &__content, &__message {
+        @include secondary-color-style;
+        margin: 20vh auto 0;
+        padding: 20px;
+        max-width: 550px;
+        height: max-content;
+        min-height:20vh;
+        position: relative;
+        
+        h1 {
+            color: $colour-background-secondary-font;
+            white-space: pre;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+    }
+
+    &__message {
+        display:none;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 50px 30px;
+        font-size: calc(1rem + 0.5vw);
+        span {
+            white-space: pre-line;
+        }
+    }
+
+    .icon-close  {
+        position: absolute;
+        margin:0;
+        top: 15px;
+        right: 20px;
+        cursor: pointer;
+        transition: transform 0.15s ease-in-out;
+        transform: scale(1);
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    .icon-close svg {
+        width: 4vmin;
+        max-width: 25px;
+        path {
+            fill: white
+        }
+    }
+
+    label, input, textarea {
+        font-size: calc(0.8rem + 0.3vw);
+    }
+}
+
+.input-error {
+    display: inline-block;
+    font-size: calc(0.8rem + 0.2vw);
+    color: white;
+    width: 100%;
+    margin-bottom: 7px;
+    text-align: left;
+    transition: 0.3s;
+    line-height: 1.2rem;
+    font-weight: 100;
+  }
+  
