@@ -53,18 +53,25 @@ function filterMediasOnSelectedTag() {
 function createElementsOnPhotographData(photographerData) {
     
     const headerPhotographer = document.getElementById('photographer-header');
-    const divPhotographerProfile = document.getElementById('photographer-profile');
     const h2PhotographerName = document.getElementById('photographer-profile__name');
     const spanPhotographerLocation = document.getElementById('photographer-profile__location');
     const spanPhotographerTagline = document.getElementById('photographer-profile__tagline');
     const divTagsPhotographer = document.getElementById('photographer-tags');
     const urlImagesPhotgraphers= "./public/images/photographers/Photographers ID Photos/";;
+    const mainDataElement = document.getElementById('photographer-main-data');
     const mainDataPriceElement = document.getElementById('photographer-main-data__price');
+    const btnOpenModalContact = document.getElementById('btn-contact');
+    const divdropdown = document.getElementById("dropdown");
+
 
     h2PhotographerName.textContent = photographerData.name;
     spanPhotographerLocation.textContent = photographerData.city + ', ' + photographerData.country;
     spanPhotographerTagline.textContent = photographerData.tagline;
 
+    headerPhotographer.style.opacity = 0;
+    btnOpenModalContact.style.ocpacity = 0;
+    divdropdown.style.opacity = 0;
+    
     let ulTagsPhotographer = document.createElement("ul");
     divTagsPhotographer.appendChild(ulTagsPhotographer);
 
@@ -91,6 +98,14 @@ function createElementsOnPhotographData(photographerData) {
     imgPhotographer.setAttribute("alt","");
     imgPhotographer.classList.add("user");
     headerPhotographer.insertBefore(imgPhotographer,headerPhotographer.children[0]);
+    imgPhotographer.style.opacity = 0;
+    imgPhotographer.addEventListener("load", function() { 
+        headerPhotographer.style.opacity = 1;
+        imgPhotographer.style.opacity = 1;
+        btnOpenModalContact.style.ocpacity = 1;
+        divdropdown.style.opacity = 1;
+        }
+    );
 
     mainDataPriceElement.textContent = photographerData.price + "€ / jour";
     modalContactTitle.textContent += "\r\n" + photographerData.name;
@@ -121,9 +136,12 @@ function createElementsOnMediasData(mediasData) {
     const urlImagesMedia = "./public/images/photographers/medias/";
     const urlImagesMediaPhotographerSmall = urlImagesMedia + "small/" + getParameterByName('id') + '/';
     // const urlImagesMediaPhotographerLarge = urlImagesMedia + "large/" + getParameterByName('id') + '/';
+    const mainDataElement = document.getElementById('photographer-main-data');
     const mainDataTotalLikesElement = document.getElementById('photographer-main-data__likes');
     // const lightBoxContent = document.getElementById('lightbox-content');
 
+    mainDataElement.style.opacity = 0;
+    
     for (mediaIndex in mediasData) {
         
         const mediaData = mediasData[mediaIndex]
@@ -136,9 +154,11 @@ function createElementsOnMediasData(mediasData) {
         articleMedia.setAttribute("data-price",mediaData.price);
         articleMedia.setAttribute("data-tags",mediaData.tags);
         articleMedia.setAttribute("data-title",mediaData.title);
-
+        articleMedia.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
+        articleMedia.style.backgroundPosition = "center";
         // let divMediaLightbox = document.createElement("div");
         // divMediaLightbox.classList.add("lightbox-imgfull");
+        photographerGallery.appendChild(articleMedia);
 
         if (mediaData.image) {
             let imgMedia = document.createElement("img");
@@ -148,6 +168,17 @@ function createElementsOnMediasData(mediasData) {
             imgMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             imgMedia.classList.add("thumb-img");
             articleMedia.appendChild(imgMedia);
+            imgMedia.style.opacity = 0;
+            imgMedia.addEventListener("load", function() 
+                { priceMedia.style.opacity = 1;   
+                  likesMedia.style.opacity = 1;
+                  titleMedia.style.opacity = 1;
+                  imgMedia.style.opacity = 1;
+                  articleMedia.style.background = "none";
+                }
+            );
+            // imgMedia.addEventListener("load", function() 
+            // { articleMedia.style.background = "url('../images/LoadSpinner.gif') no-repeat"; })
 
             // let imgMediaLightbox = document.createElement("img");
             // imgMediaLightbox.setAttribute("alt", mediaData.title);
@@ -163,7 +194,14 @@ function createElementsOnMediasData(mediasData) {
             videoMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             videoMedia.classList.add("thumb-img");
             articleMedia.appendChild(videoMedia);
-
+            videoMedia.style.opacity = 0;
+            videoMedia.addEventListener("loadedmetadata", function() 
+                { priceMedia.style.opacity = 1;   
+                  likesMedia.style.opacity = 1;
+                  titleMedia.style.opacity = 1;
+                  videoMedia.style.opacity = 1;
+                  articleMedia.style.background = "none";
+                });
             // let videoMediaLightbox = document.createElement("video");
             // videoMediaLightbox.setAttribute("alt", mediaData.title);
             // videoMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.video + '#t=0.1'));
@@ -175,11 +213,13 @@ function createElementsOnMediasData(mediasData) {
         let priceMedia = document.createElement("span");
         priceMedia.textContent = mediaData.price + ' €';
         priceMedia.classList.add("thumb-img__price");
+        priceMedia.style.opacity = 0; 
         articleMedia.appendChild(priceMedia);
 
         let likesMedia = document.createElement("div");
         likesMedia.classList.add("thumb-img__likes");
         likesMedia.setAttribute("data-likes",mediaData.likes);
+        likesMedia.style.opacity = 0; 
         articleMedia.appendChild(likesMedia);
 
         let likesIcone = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -191,6 +231,7 @@ function createElementsOnMediasData(mediasData) {
         let titleMedia = document.createElement("span");
         titleMedia.textContent = mediaData.title;
         titleMedia.classList.add("thumb-img__title");
+        titleMedia.style.opacity = 0; 
         articleMedia.appendChild(titleMedia);
 
         // let titleMediaLightbox = document.createElement("span");
@@ -198,11 +239,11 @@ function createElementsOnMediasData(mediasData) {
         // titleMediaLightbox.classList.add("lightbox-imgfull__title");
         // divMediaLightbox.appendChild(titleMediaLightbox);
 
-        photographerGallery.appendChild(articleMedia);
         // lightBoxContent.appendChild(divMediaLightbox);
     }
     
     mainDataTotalLikesElement.textContent = getTotalLikes()
+    mainDataElement.style.opacity = 1;
 
     const likeIcones = document.querySelectorAll(".thumb-img__like-icone");
     likeIcones.forEach((element) => element.addEventListener("click", function() {
@@ -234,6 +275,8 @@ function createLightbox(mediasData) {
      
         let divMediaLightbox = document.createElement("div");
         divMediaLightbox.classList.add("lightbox-imgfull");
+        divMediaLightbox.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
+        divMediaLightbox.style.backgroundPosition = "center";
 
         if (mediaData.image) {
             let imgMediaLightbox = document.createElement("img");
@@ -241,6 +284,13 @@ function createLightbox(mediasData) {
             imgMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.image));
             imgMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
             divMediaLightbox.appendChild(imgMediaLightbox);
+            imgMediaLightbox.style.opacity = 0;
+            imgMediaLightbox.addEventListener("load", function() 
+                { titleMediaLightbox.style.opacity = 1;
+                  imgMediaLightbox.style.opacity = 1;
+                  divMediaLightbox.style.background = "none";
+                }
+            );
         }
         else if (mediaData.video) {
             let videoMediaLightbox = document.createElement("video");
@@ -249,13 +299,20 @@ function createLightbox(mediasData) {
             videoMediaLightbox.setAttribute("controls","controls");
             videoMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
             divMediaLightbox.appendChild(videoMediaLightbox);
+            videoMediaLightbox.style.opacity = 0;
+            videoMediaLightbox.addEventListener("loadedmetadata", function() 
+                { titleMediaLightbox.style.opacity = 1;
+                  videoMediaLightbox.style.opacity = 1;
+                  divMediaLightbox.style.background = "none";
+                }
+            );
         } 
 
         let titleMediaLightbox = document.createElement("span");
         titleMediaLightbox.textContent = mediaData.title;
         titleMediaLightbox.classList.add("lightbox-imgfull__title");
         divMediaLightbox.appendChild(titleMediaLightbox);
-
+        titleMediaLightbox.style.opacity = 0; 
         lightBoxContent.appendChild(divMediaLightbox);
     }
 }

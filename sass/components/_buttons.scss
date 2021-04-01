@@ -33,6 +33,7 @@
 
 .btn-contact {
   float:right;
+  opacity: 0;
   @media (max-width: 768px) {
       position: fixed;
       z-index: 999;

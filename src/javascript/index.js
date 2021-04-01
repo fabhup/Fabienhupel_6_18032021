@@ -74,6 +74,8 @@ function getPhotographers(response) {
         let headerPhotographer = document.createElement("header");
         headerPhotographer.classList.add("thumb-photographer__header");
         articlePhotographer.appendChild(headerPhotographer);
+        articlePhotographer.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
+        articlePhotographer.style.backgroundPosition = "center";
 
         let linkPhotographer = document.createElement("a");
         linkPhotographer.setAttribute("href",`./photograph.html?id=${photographerData.id}`);
@@ -85,14 +87,25 @@ function getPhotographers(response) {
         imgPhotographer.setAttribute("alt","");
         imgPhotographer.classList.add("user");
         linkPhotographer.appendChild(imgPhotographer);
+        linkPhotographer.style.opacity = 0;
+        imgPhotographer.addEventListener("load", function() 
+        { namePhotographer.style.opacity = 1;   
+          detailsPhotographer.style.opacity = 1;
+          divTagsPhotographer.style.opacity = 1;
+          linkPhotographer.style.opacity = 1;
+          articlePhotographer.style.background = "none";
+        });
+
 
         let namePhotographer = document.createElement("h2");
         linkPhotographer.appendChild(namePhotographer);
         namePhotographer.textContent = photographerData.name;
+        namePhotographer.style.opacity = 0;
         
         let detailsPhotographer = document.createElement("div");
         detailsPhotographer.classList.add("photographer-profile");
         articlePhotographer.appendChild(detailsPhotographer);
+        detailsPhotographer.style.opacity = 0;
 
         let locationPhotographer = document.createElement("span");
         locationPhotographer.classList.add("photographer-profile__location");
@@ -112,6 +125,7 @@ function getPhotographers(response) {
         let divTagsPhotographer = document.createElement("div");
         divTagsPhotographer.classList.add("photographer-tags");
         articlePhotographer.appendChild(divTagsPhotographer);
+        divTagsPhotographer.style.opacity = 0;
 
         let ulTagsPhotographer = document.createElement("ul");
         divTagsPhotographer.appendChild(ulTagsPhotographer);

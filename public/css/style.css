@@ -137,6 +137,7 @@ a {
 
 .btn-contact {
   float: right;
+  opacity: 0;
 }
 @media (max-width: 768px) {
   .btn-contact {
@@ -282,8 +283,6 @@ a {
   height: 100%;
   object-fit: cover;
   border-radius: 5px;
-  background: url("../images/LoadSpinner.gif") no-repeat;
-  background-position: center;
 }
 .lightbox .icon-prev, .lightbox .icon-next, .lightbox .icon-close {
   margin: 0px 2vmin;
@@ -313,6 +312,7 @@ a {
   margin: 20px;
   position: relative;
   z-index: 99;
+  opacity: 0;
 }
 @media screen and (max-width: 768px) {
   .dropdown {
@@ -571,6 +571,7 @@ label, input {
   width: 100%;
   border-radius: 5px;
   overflow: auto;
+  opacity: 0;
 }
 @media (max-width: 768px) {
   .photographer-header {
@@ -669,8 +670,6 @@ label, input {
   height: 300px;
   object-fit: cover;
   border-radius: 5px;
-  background: url("../images/LoadSpinner.gif") no-repeat;
-  background-position: center;
 }
 .photographer-gallery .thumb-imgfull .thumb-img__likes {
   float: right;
@@ -736,6 +735,7 @@ label, input {
   height: calc(30px + 1rem);
   vertical-align: middle;
   z-index: 99;
+  opacity: 0;
 }
 .photographer-main-data__likes {
   margin: 20px 5px 20px 20px;
