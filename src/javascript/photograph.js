@@ -103,6 +103,16 @@ function createElementsOnPhotographData(photographerData) {
 }
 
 /**
+ * Function to get the Total likes for all medias of a photographer
+ */
+function getTotalLikes() {
+    let totalLikes = 0;
+    const likesElements = document.querySelectorAll(".thumb-img__likes")
+    likesElements.forEach((elt) => totalLikes += Number(elt.getAttribute('data-likes')))
+    return totalLikes
+}
+
+/**
  * Function to create or update HTML elements depending on mediasData extracted
  * @param {object} mediasData 
  */
@@ -110,16 +120,9 @@ function createElementsOnMediasData(mediasData) {
     const photographerGallery = document.getElementById('photographer-gallery');
     const urlImagesMedia = "./public/images/photographers/medias/";
     const urlImagesMediaPhotographerSmall = urlImagesMedia + "small/" + getParameterByName('id') + '/';
-    const urlImagesMediaPhotographerLarge = urlImagesMedia + "large/" + getParameterByName('id') + '/';
+    // const urlImagesMediaPhotographerLarge = urlImagesMedia + "large/" + getParameterByName('id') + '/';
     const mainDataTotalLikesElement = document.getElementById('photographer-main-data__likes');
-    const lightBoxContent = document.getElementById('lightbox-content');
-    
-    function getTotalLikes() {
-        let totalLikes = 0;
-        const likesElements = document.querySelectorAll(".thumb-img__likes")
-        likesElements.forEach((elt) => totalLikes += Number(elt.getAttribute('data-likes')))
-        return totalLikes
-    }
+    // const lightBoxContent = document.getElementById('lightbox-content');
 
     for (mediaIndex in mediasData) {
         
@@ -133,11 +136,9 @@ function createElementsOnMediasData(mediasData) {
         articleMedia.setAttribute("data-price",mediaData.price);
         articleMedia.setAttribute("data-tags",mediaData.tags);
         articleMedia.setAttribute("data-title",mediaData.title);
-        photographerGallery.appendChild(articleMedia);
 
-        let divMediaLightbox = document.createElement("div");
-        divMediaLightbox.classList.add("lightbox-imgfull");
-        lightBoxContent.appendChild(divMediaLightbox);
+        // let divMediaLightbox = document.createElement("div");
+        // divMediaLightbox.classList.add("lightbox-imgfull");
 
         if (mediaData.image) {
             let imgMedia = document.createElement("img");
@@ -148,11 +149,11 @@ function createElementsOnMediasData(mediasData) {
             imgMedia.classList.add("thumb-img");
             articleMedia.appendChild(imgMedia);
 
-            let imgMediaLightbox = document.createElement("img");
-            imgMediaLightbox.setAttribute("alt", mediaData.title);
-            imgMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.image));
-            imgMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            divMediaLightbox.appendChild(imgMediaLightbox);
+            // let imgMediaLightbox = document.createElement("img");
+            // imgMediaLightbox.setAttribute("alt", mediaData.title);
+            // imgMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.image));
+            // imgMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            // divMediaLightbox.appendChild(imgMediaLightbox);
         }
         else if (mediaData.video) {
             let videoMedia = document.createElement("video");
@@ -163,12 +164,12 @@ function createElementsOnMediasData(mediasData) {
             videoMedia.classList.add("thumb-img");
             articleMedia.appendChild(videoMedia);
 
-            let videoMediaLightbox = document.createElement("video");
-            videoMediaLightbox.setAttribute("alt", mediaData.title);
-            videoMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.video + '#t=0.1'));
-            videoMediaLightbox.setAttribute("controls","controls");
-            videoMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            divMediaLightbox.appendChild(videoMediaLightbox);
+            // let videoMediaLightbox = document.createElement("video");
+            // videoMediaLightbox.setAttribute("alt", mediaData.title);
+            // videoMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.video + '#t=0.1'));
+            // videoMediaLightbox.setAttribute("controls","controls");
+            // videoMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            // divMediaLightbox.appendChild(videoMediaLightbox);
         } 
 
         let priceMedia = document.createElement("span");
@@ -192,10 +193,13 @@ function createElementsOnMediasData(mediasData) {
         titleMedia.classList.add("thumb-img__title");
         articleMedia.appendChild(titleMedia);
 
-        let titleMediaLightbox = document.createElement("span");
-        titleMediaLightbox.textContent = mediaData.title;
-        titleMediaLightbox.classList.add("lightbox-imgfull__title");
-        divMediaLightbox.appendChild(titleMediaLightbox);
+        // let titleMediaLightbox = document.createElement("span");
+        // titleMediaLightbox.textContent = mediaData.title;
+        // titleMediaLightbox.classList.add("lightbox-imgfull__title");
+        // divMediaLightbox.appendChild(titleMediaLightbox);
+
+        photographerGallery.appendChild(articleMedia);
+        // lightBoxContent.appendChild(divMediaLightbox);
     }
     
     mainDataTotalLikesElement.textContent = getTotalLikes()
@@ -216,6 +220,47 @@ function createElementsOnMediasData(mediasData) {
 }
 
 /**
+ * Function to create Lightbox depending on mediasData extracted
+ * @param {object} mediasData 
+ */
+function createLightbox(mediasData) {
+    const urlImagesMedia = "./public/images/photographers/medias/";
+    const urlImagesMediaPhotographerLarge = urlImagesMedia + "large/" + getParameterByName('id') + '/';
+    const lightBoxContent = document.getElementById('lightbox-content');
+
+    for (mediaIndex in mediasData) {
+        
+        const mediaData = mediasData[mediaIndex]
+     
+        let divMediaLightbox = document.createElement("div");
+        divMediaLightbox.classList.add("lightbox-imgfull");
+
+        if (mediaData.image) {
+            let imgMediaLightbox = document.createElement("img");
+            imgMediaLightbox.setAttribute("alt", mediaData.title);
+            imgMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.image));
+            imgMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            divMediaLightbox.appendChild(imgMediaLightbox);
+        }
+        else if (mediaData.video) {
+            let videoMediaLightbox = document.createElement("video");
+            videoMediaLightbox.setAttribute("alt", mediaData.title);
+            videoMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.video + '#t=0.1'));
+            videoMediaLightbox.setAttribute("controls","controls");
+            videoMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
+            divMediaLightbox.appendChild(videoMediaLightbox);
+        } 
+
+        let titleMediaLightbox = document.createElement("span");
+        titleMediaLightbox.textContent = mediaData.title;
+        titleMediaLightbox.classList.add("lightbox-imgfull__title");
+        divMediaLightbox.appendChild(titleMediaLightbox);
+
+        lightBoxContent.appendChild(divMediaLightbox);
+    }
+}
+
+/**
  * Function to get photographers and media Datas and update html (on promises)
  */
 function loadData() {
@@ -228,6 +273,18 @@ function loadData() {
     .then(extractData => (createElementsOnMediasData(extractData)))
 }
 
+/**
+ * Function to get photographers and media Datas and update html (on promises)
+ */
+function loadLightbox() {
+    getData(url,'media')
+    .then(extractData => filterData(extractData,filtersDataMedia))
+    .then(extractData => (createLightbox(extractData)))
+}
+
 //Load Photograph and Media Data 
 loadData();
+
+//Load Lightbox (after LoadData)
+loadLightbox()
 

@@ -282,6 +282,8 @@ a {
   height: 100%;
   object-fit: cover;
   border-radius: 5px;
+  background: url("../images/LoadSpinner.gif") no-repeat;
+  background-position: center;
 }
 .lightbox .icon-prev, .lightbox .icon-next, .lightbox .icon-close {
   margin: 0px 2vmin;
@@ -667,6 +669,8 @@ label, input {
   height: 300px;
   object-fit: cover;
   border-radius: 5px;
+  background: url("../images/LoadSpinner.gif") no-repeat;
+  background-position: center;
 }
 .photographer-gallery .thumb-imgfull .thumb-img__likes {
   float: right;
