@@ -25,11 +25,6 @@ function createTagsNav(listOfTags) {
         buttonTag.classList.add("btn-tag--" + listOfTags[tag]);
         buttonTag.textContent = "#" + listOfTags[tag][0].toUpperCase() + listOfTags[tag].substring(1);
         liTag.appendChild(buttonTag);
-        
-        // let spanTag = document.createElement("span");
-        // spanTag.classList.add("sr-only");
-        // spanTag.textContent = 'Tag ' + listOfTags[tag];
-        // liTag.appendChild(spanTag);
     }
 }
 
@@ -186,36 +181,3 @@ ajaxGet('./src/data/database.json', getPhotographers);
 //Event on Tags Buttons Nav
 const buttonsSelectTag = document.querySelectorAll('nav button[class~="btn-tag"]');
 buttonsSelectTag.forEach((button) => button.addEventListener("click", filterSelectedTag))
-
-
-
-// function displayAllArticles() {
-//     const articlesHidden = document.querySelectorAll('article[class~="hidden"]');
-//     console.log(articlesHidden);
-//     for(article in articlesHidden) {
-//         articlesHidden[article].classList.remove("hidden")
-//     }    
-// }
-
-// function ajaxPost(url, data, callback, isJson) {
-//     var req = new XMLHttpRequest();
-//     req.open("POST", url);
-//     req.addEventListener("load", function() {
-//         if (req.status >= 200 && req.status < 400) {
-//             // Appelle la fonction callback en lui passant la réponse de la requête
-//             callback(req.responseText);
-//         } else {
-//             console.error(req.status + " " + req.statusText + " " + url);
-//         }
-//     });
-//     req.addEventListener("error", function() {
-//         console.error("Erreur réseau avec l'URL " + url);
-//     });
-//     if (isJson) {
-//         // Définit le contenu de la requête comme étant du JSON
-//         req.setRequestHeader("Content-Type", "application/json");
-//         // Transforme la donnée du format JSON vers le format texte avant l'envoi
-//         data = JSON.stringify(data);
-//     }
-//     req.send(data);
-// }

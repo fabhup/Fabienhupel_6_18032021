@@ -5,7 +5,6 @@ const modalContact = document.getElementById('modal-contact');
 const modalContactForm = document.getElementById('modal-contact__form');
 const modalContactContent = document.getElementById('modal-contact__content');
 const modalContactCloseMessage = document.getElementById('modal-contact__message');
-const btnOpenModalContact = document.getElementById('btn-contact');
 
 // Input Elements
 const firstnameInput = document.getElementById("firstname");
@@ -77,6 +76,7 @@ function addErrorMessageInput(inputElement, errorMessage) {
     errorMessageElement.textContent = errorMessage;
     errorMessageElement.classList.add("input-error");
     inputElement.parentNode.insertBefore(errorMessageElement, inputElement.nextSibling);
+    inputElement.setAttribute("aria-label",errorMessage);
 }
   
 /**
@@ -85,13 +85,14 @@ function addErrorMessageInput(inputElement, errorMessage) {
  * @param {element} inputElement
  */
 function removeErrorMessageInput(inputElement) {
-if (inputElement.nextSiblingElement.classList.contains("input-error")) {
+  inputElement.removeAttribute("aria-label");
+  if (inputElement.nextSiblingElement.classList.contains("input-error")) {
     inputElement.nextSiblingElement.remove();
-}
+  }
 }
 
 /**
- * function removeElements() : function to remove all elementsin an array
+ * function removeElements() : function to remove all elements in an array
  */
 const removeElements = (elms) => elms.forEach(el => el.remove());
 
@@ -99,9 +100,11 @@ const removeElements = (elms) => elms.forEach(el => el.remove());
 function openModalContact() {
     modalContact.style.display = "flex";
     modalContactContent.style.display = "block";
-    removeElements(document.querySelectorAll(".input-error"));
-    modalContactForm.reset();
+    removeElements(document.querySelectorAll(".input-error"));        
+    modalContactContent.focus();
+    modalContactForm.reset(); 
 }
+
 function closeModalContact() {
     modalContact.style.display = "none";
     modalContactCloseMessage.style.display = "none";
@@ -156,15 +159,23 @@ modalContactForm.addEventListener("submit", function (e) {
         );
         isValidForm = false;
       }
+      else {
+        InputValidationInstance.inputElement.removeAttribute("aria-label");
+      }
   }
   // if isValidForm is true : the function displayConfirmMessageModal() is applied  
   if (isValidForm) {
     const inputs = document.getElementsByClassName("form-input");
     for(var i = 0; i < inputs.length; i++) {
-        console.log(inputs[i].labels[0].textContent + " : " + inputs[i].value)
+        console.log(inputs[i].labels[0].textContent + " : " + inputs[i].value);
+        
     };
     modalContactCloseMessage.style.display = "flex";
+    modalContactCloseMessage.focus()
     modalContactContent.style.display = "none";
+  }
+  else {
+    document.querySelectorAll(".input-error")[0].previousSibling.focus()
   }
 
 })

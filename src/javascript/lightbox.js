@@ -1,17 +1,19 @@
 // DOM Elements variables
 const mainContentElement = document.getElementById('main-content');
 const mainHeaderElement = document.getElementsByClassName('header')[0];
+const lightboxElement = document.getElementById("lightbox");
 
 // Open the LightBox Gallery
 function openLightbox() {
-    document.getElementById("lightbox").style.display = "flex";
+    lightboxElement.style.display = "flex";
     mainContentElement.setAttribute("aria-hidden","true");
     mainHeaderElement.setAttribute("aria-hidden","true");
+    lightboxElement.focus() ;
   }
   
   // Close the LightBox Gallery
   function closeLightbox() {
-    document.getElementById("lightbox").style.display = "none";
+    lightboxElement.style.display = "none";
     mainContentElement.setAttribute("aria-hidden","false");
     mainHeaderElement.setAttribute("aria-hidden","false");
   }

@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="./public/css/style.css">
 </head>
 <body>
-    <header class="header" role="banner">
+    <header id="main-header" class="header" role="banner">
         <a aria-label="Fisheye Home page" href="./index.html" class="header-logo">
-            <svg role="img" alt="Fisheye Home page" width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg role="img" width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <title>Fisheye Home page</title>
                 <path d="M24.7206 0.911621V6.51058H6.31164V17.5783H21.4333V22.9168H6.31164V39.1929H0V0.911621H24.7206Z" fill="#911C1C"/>
                 <path d="M34.5826 1.04167C35.2401 1.69271 35.6346 2.60417 35.6346 3.64583C35.6346 4.6875 35.2401 5.46875 34.5826 6.11979C33.9252 6.77083 33.0047 7.16146 31.9528 7.16146C30.9008 7.16146 30.1119 6.77083 29.3229 6.11979C28.6655 5.46875 28.271 4.55729 28.271 3.64583C28.271 2.60417 28.6655 1.82292 29.3229 1.04167C29.9804 0.390625 30.9008 0 31.9528 0C33.0047 0 33.7937 0.390625 34.5826 1.04167ZM34.8456 11.1979V39.1927H28.9285V11.1979H34.8456Z" fill="#911C1C"/>
                 <path d="M43.261 36.9792C40.8941 35.2865 39.7107 32.9427 39.7107 29.9479H45.4964C45.6279 31.3802 46.2853 32.6823 47.6002 33.5937C48.9152 34.5052 50.4931 35.026 52.4655 35.026C54.3064 35.026 55.7528 34.6354 56.9362 33.9844C58.1196 33.3333 58.6456 32.4219 58.6456 31.25C58.6456 30.3385 58.3826 29.6875 57.8566 29.1667C57.3307 28.6458 56.6732 28.3854 55.7528 28.125C54.8323 27.8646 53.5174 27.7344 51.808 27.474H51.6765L50.8876 27.3438C48.6522 27.0833 46.6798 26.6927 45.2334 26.1719C43.787 25.651 42.472 24.8698 41.6831 23.8281C40.7626 22.7865 40.3682 21.4844 40.3682 19.6615C40.3682 17.9688 40.8941 16.4063 41.8146 15.1042C42.735 13.8021 44.1814 12.7604 45.8908 11.9792C47.6002 11.1979 49.5726 10.9375 51.808 10.9375C55.3583 10.9375 58.2511 11.7188 60.355 13.2812C62.5904 14.8438 63.7738 17.0573 63.9053 19.9219H58.1196C57.9881 18.6198 57.3307 17.5781 56.1472 16.7969C54.9638 16.0156 53.5174 15.4948 51.808 15.4948C50.0986 15.4948 48.6522 15.8854 47.7317 16.5365C46.6798 17.1875 46.1538 18.099 46.1538 19.2708C46.1538 20.0521 46.4168 20.7031 46.8113 21.0938C47.3373 21.4844 47.9947 21.7448 48.7837 22.0052C49.5726 22.1354 50.7561 22.3958 52.334 22.526C52.4655 22.526 52.4655 22.526 52.597 22.526C52.7284 22.526 52.7284 22.526 52.8599 22.526C55.3583 22.7865 57.3307 23.1771 59.0401 23.6979C60.618 24.2188 62.0644 25 62.9849 26.1719C64.0368 27.3438 64.5628 28.9062 64.5628 30.8594C64.5628 32.5521 64.0368 34.1146 62.9849 35.4167C61.9329 36.7188 60.4865 37.7604 58.6456 38.5417C56.8047 39.1927 54.8323 39.5833 52.4655 39.5833C48.6522 39.4531 45.6279 38.6719 43.261 36.9792Z" fill="#911C1C"/>
@@ -24,76 +25,61 @@
         <header id="photographer-header" class="photographer-header" role="banner">
             <button id="btn-contact" class="btn-contact" onclick="openModalContact()">Contactez-moi</button>
             <div id="photographer-profile" class="photographer-profile">
-                <h2 id="photographer-profile__name"></h2>
-                    <span id="photographer-profile__location" class="photographer-profile__location"></span>
-                    <span id="photographer-profile__tagline" class="photographer-profile__tagline"></span>
-                <div id="photographer-tags" class="photographer-tags">
-                </div>
+                <h2 role="heading" id="photographer-profile__name"></h2>
+                <span id="photographer-profile__location" class="photographer-profile__location"></span>
+                <span id="photographer-profile__tagline" class="photographer-profile__tagline"></span>  
+                <div id="photographer-tags" class="photographer-tags"></div>              
             </div>
         </header>
-        <div id="dropdown" class="dropdown">
-            <div class="dropdown-title" aria-hidden="true"> 
-                Trier par
-            </div>
-            <div id="dropdown-content" class="dropdown-content"> 
-                <div id="dropdown-closed" class="dropdown-closed" role="button" aria-label="Trier les photos">
-                    <div class="dropdown-arrow">
-                        <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
-                        </svg>
-                    </div>
-                    <span id="dropdown-label" class="dropdown-label">Popularité</span>
-                </div>
-                <div id="dropdown-opened" class="dropdown-opened" role="button" aria-label="Trier les photos">
-                    <div class="dropdown-arrow">
-                        <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
-                        </svg>
-                    </div>
-                    <span class="dropdown-option selected" data-value="likes" role="option" aria-label="Trier par popularité">Popularité</span>
-                    <span class="dropdown-option" data-value="date" role="option" aria-label="Trier par date">Date</span>
-                    <span class="dropdown-option" data-value="title" role="option" aria-label="Trier par titre">Titre</span>
-                </div>
-            </div>
-        </div>
         <div id="photographer-main-data" class="photographer-main-data">
-            <span id="photographer-main-data__likes" class="photographer-main-data__likes"></span>
+            <span role="text" id="photographer-main-data__likes" class="photographer-main-data__likes"></span>
             <svg width="19" height="19" viewBox="-2 -2 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z" fill="black"/>
             </svg>
-            <span  id="photographer-main-data__price" class="photographer-main-data__price">   +
+            <span role="text" id="photographer-main-data__price" class="photographer-main-data__price"> 
             </span>
+        </div>
+        <div id="dropdown" class="dropdown">
+            <div id="dropdown-title"class="dropdown-title" aria-hidden="true"> 
+                Trier par
+            </div>
+            <button id="dropdown-content" class="dropdown-content" aria-expanded="false" aria-labelledby="dropdown-title" aria-haspopup="listbox">                   
+                <ul id="dropdown-list" role="listbox" aria-labelledby="dropdown-title" aria-activedescendant="dropdown-option-1" tabindex="0">
+                    <li id="dropdown-option-1" class="dropdown-option" data-value="likes" role="option" aria-label="Trier par Popularité" aria-selected="true" aria-hidden="false" tabindex="0">Popularité</li>
+                    <li id="dropdown-option-2" class="dropdown-option" data-value="date" role="option" aria-label="Trier par Date" aria-selected="false" aria-hidden="false" tabindex="0">Date</li>
+                    <li id="dropdown-option-3" class="dropdown-option" data-value="title" role="option" aria-label="Trier par Titre" aria-selected="false" aria-hidden="false" tabindex="0">Titre</li>
+                </ul>
+                <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="dropdown-arrow">
+                    <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
+                </svg>
+            </button>
         </div>
         <section id="photographer-gallery" class="photographer-gallery">
             <!-- js script load data images -->
         </section>
     </main>
-    <div id="lightbox" class="lightbox" role="dialog">
+    <div id="lightbox" class="lightbox" role="dialog" aria-label="vue image aggrandie" tabindex="0">
+        
         <div id="lightbox-content" class="lightbox-content">
-            <div class="icon-close" role="button" aria-label="Fermer et retour page photographe"  onclick="closeLightbox()">
+            <button class="icon-prev" aria-label="Photo précédente" onclick="moveIndex(-1)" tabindex="0"> 
+                <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
+                </svg>
+            </button>
+            <button class="icon-next" aria-label="Photo suivante" onclick="moveIndex(1)" tabindex="0">
+                <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
+                </svg>
+            </button>
+            <button class="icon-close" aria-label="Fermer et retour page photographe"  onclick="closeLightbox()" tabindex="0">
                 <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="#911C1C"/>
                 </svg>    
-            </div>
-        </div>
-        <div class="icon-prev" role="button" aria-label="Photo précédente" onclick="moveIndex(-1)">
-            <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
-            </svg>
-        </div>
-        <div class="icon-next" role="button" aria-label="Photo suivante" onclick="moveIndex(1)">
-            <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
-            </svg>
+            </button>
         </div>
     </div>
-    <div id="modal-contact" class="modal-contact">
-        <div id="modal-contact__content" class="modal-contact__content">
-            <div class="icon-close" role="button" aria-label="Fermer formulaire de contact"  onclick="closeModalContact()">
-                <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="#911C1C"/>
-                </svg>    
-            </div>
+    <div id="modal-contact" class="modal-contact" >
+        <div id="modal-contact__content" class="modal-contact__content" role="dialog" aria-labelledby="modal-contact__title" tabindex="0">
           	<h1 id="modal-contact__title" class="modal-contact__title">Contactez-moi</h1>
             <form
               id="modal-contact__form"
@@ -103,8 +89,8 @@
               method="POST"
               novalidate
             >
-                <label for="firstname">Prénom</label>
-                <input
+                <label id="form-input__firstname" for="firstname">Prénom</label>
+                <input 
                   class="form-input"
                   type="text"
                   id="firstname"
@@ -146,15 +132,20 @@
                 value="Envoyer"
               />
             </form>
+            <div class="icon-close" role="button" aria-label="Fermer formulaire de contact"  onclick="closeModalContact()" tabindex="0">
+                <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="#911C1C"/>
+                </svg>    
+            </div>
         </div>
-        <div id="modal-contact__message" class="modal-contact__message">
-            <div class="icon-close" role="button" aria-label="Fermer formulaire de contact"  onclick="closeModalContact()">
+        <div id="modal-contact__message" class="modal-contact__message" role="dialog" aria-labelledby="confirm-message" tabindex="0">
+            <div class="icon-close" role="button" aria-label="Fermer formulaire de contact"  onclick="closeModalContact()" tabindex="0">
                 <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="#911C1C"/>
                 </svg>    
             </div>
             <span id="confirm-message" class="confirm-message">Votre message a bien été envoyé à</span>
-            <button class="btn-close" onclick="closeModalContact()">Fermer</button>
+            <button class="btn-close" onclick="closeModalContact()" tabindex="0" aria-label="Fermer fenêtre de contact">Fermer</button>
         </div>
     </div>   
     <script src="./src/javascript/managedata.js"></script> 

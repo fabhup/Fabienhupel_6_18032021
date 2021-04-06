@@ -21,50 +21,43 @@
         width: calc(60px + 3rem + 2vw);
         position:absolute;
         left:calc(50px + 2rem + 2vw);;
+        text-align: left;        
+        &[aria-expanded="true"] li {
+            display:block;
+        }
     }
-    &-opened {
-        @include primary-color-style;
-        display: none;
-        flex-direction:column;  
-        padding: 0px 2px 12px;
+    & ul {
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        
     }
-    &-closed {
-        flex-direction:column;  
-        padding: 12px 15px;
-    }
-
     &-option {
-        margin: 8px 3px 0px;
+        margin: 4px 8px 6px;
         border-top: 1px solid $colour-background-primary-font;
-        padding: 10px 10px 6px;
+        padding: 10px 6px 6px ;
         transform: scale(1);
         transition: transform 0.2s;
+        display: none;
         &:hover {
             transform: scale(1.05)
         }
-        &.selected {
-            order: -1;
+        &[aria-selected="true"]  {
             border-top: none;
-            margin: 8px 3px 0px;
-            padding: 4px 10px 6px;
+            display: block;
         }
     }
 
     &-arrow {
         position: absolute;
-        height: 20px;
-        width: 20px;
-        right: 5px;
-        top: 14px;
+        height: 12px;
+        width: 12px;
+        right: 10px;
+        top: 18px;
         z-index: 1000;
-        
-        & svg {
-            width: 10px;
-            height: 10px;
-            transform: rotate(90deg);
-            path {
+        transform: rotate(90deg);
+         path {
                 fill: $colour-background-primary-font;
             }
-        }
     }
 }

@@ -5,15 +5,14 @@ const url = './src/data/database.json'
 const photographerGallery = document.getElementById('photographer-gallery');
 const modalContactTitle = document.getElementById('modal-contact__title');
 const spanmodalContactConfirmMessage = document.getElementById('confirm-message');
-const firstChildLightboxContent = document.getElementById('lightbox-content').firstChild;
 
 // Get current Id Photograph (to filter data on this id)
 const filtersDataPhotograph = { 
     "id": (x => x == getParameterByName('id'))
 };
 const filtersDataMedia = { 
-    "photographerId": (x => x == getParameterByName('id'))
-    // ,"tags": (x => x.includes(getParameterByName('tag')))
+    "photographerId": (x => x == getParameterByName('id')),
+    "price": (x => x <= getParameterByName('price'))
 };
 
 /**
@@ -64,6 +63,7 @@ function createElementsOnPhotographData(photographerData) {
     const btnOpenModalContact = document.getElementById('btn-contact');
     const divdropdown = document.getElementById("dropdown");
 
+
     h2PhotographerName.textContent = photographerData.name;
     spanPhotographerLocation.textContent = photographerData.city + ', ' + photographerData.country;
     spanPhotographerTagline.textContent = photographerData.tagline;
@@ -85,14 +85,12 @@ function createElementsOnPhotographData(photographerData) {
         buttonTagPhotographer.setAttribute("role","button");
         buttonTagPhotographer.classList.add("btn-tag--" + photographerData.tags[tag]);
         buttonTagPhotographer.textContent = "#" + photographerData.tags[tag];
-        buttonTagPhotographer.setAttribute("aria-label",("Tag " + photographerData.tags[tag]));
-        buttonTagPhotographer.setAttribute("aria-pressed","false");
         liTagPhotographer.appendChild(buttonTagPhotographer);
         
-        // let spanTagPhotographer = document.createElement("span");
-        // spanTagPhotographer.classList.add("sr-only");
-        // spanTagPhotographer.textContent = 'Tag ' + photographerData.tags[tag];
-        // liTagPhotographer.appendChild(spanTagPhotographer);
+        let spanTagPhotographer = document.createElement("span");
+        spanTagPhotographer.classList.add("sr-only");
+        spanTagPhotographer.textContent = 'Tag ' + photographerData.tags[tag];
+        liTagPhotographer.appendChild(spanTagPhotographer);
     }
 
     let imgPhotographer = document.createElement("img");
@@ -101,17 +99,15 @@ function createElementsOnPhotographData(photographerData) {
     imgPhotographer.classList.add("user");
     headerPhotographer.insertBefore(imgPhotographer,headerPhotographer.children[0]);
     imgPhotographer.style.opacity = 0;
-    
     imgPhotographer.addEventListener("load", function() { 
         headerPhotographer.style.opacity = 1;
         imgPhotographer.style.opacity = 1;
-        btnOpenModalContact.style.opacity = 1;
+        btnOpenModalContact.style.ocpacity = 1;
         divdropdown.style.opacity = 1;
         }
     );
 
     mainDataPriceElement.textContent = photographerData.price + "€ / jour";
-    mainDataPriceElement.setAttribute("aria-label",`Tarif du photographe ${photographerData.price} euros par jour`);
     modalContactTitle.textContent += "\r\n" + photographerData.name;
     spanmodalContactConfirmMessage.textContent += "\r\n" + photographerData.name
 
@@ -164,11 +160,9 @@ function createElementsOnMediasData(mediasData) {
             let imgMedia = document.createElement("img");
             imgMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.image));
             imgMedia.setAttribute("alt", mediaData.title);
-            imgMedia.setAttribute("role","link");
             imgMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
             imgMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             imgMedia.classList.add("thumb-img");
-            imgMedia.setAttribute("tabindex","0");
             articleMedia.appendChild(imgMedia);
             imgMedia.style.opacity = 0;
             imgMedia.addEventListener("load", function() 
@@ -184,11 +178,9 @@ function createElementsOnMediasData(mediasData) {
             let videoMedia = document.createElement("video");
             videoMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.video + '#t=0.1'));
             videoMedia.setAttribute("alt",mediaData.title);
-            videoMedia.setAttribute("role","link");
             videoMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
             videoMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             videoMedia.classList.add("thumb-img");
-            videoMedia.setAttribute("tabindex","0");
             articleMedia.appendChild(videoMedia);
             videoMedia.style.opacity = 0;
             videoMedia.addEventListener("loadedmetadata", function() 
@@ -200,63 +192,47 @@ function createElementsOnMediasData(mediasData) {
                 });
         } 
 
-        // let divInfosMedia = document.createElement("div");
-        // articleMedia.appendChild(divInfosMedia);
-
-        let divInfosMedia = document.createElement("div");
-        divInfosMedia.classList.add("thumb-img__infos");
-        articleMedia.appendChild(divInfosMedia);
-
         let priceMedia = document.createElement("span");
         priceMedia.textContent = mediaData.price + ' €';
         priceMedia.classList.add("thumb-img__price");
-        priceMedia.setAttribute("aria-label",`Tarif de la photo ${mediaData.price} euros`);
-        priceMedia.setAttribute("role","text");
         priceMedia.style.opacity = 0; 
-        divInfosMedia.appendChild(priceMedia);
+        articleMedia.appendChild(priceMedia);
 
         let likesMedia = document.createElement("div");
         likesMedia.classList.add("thumb-img__likes");
         likesMedia.setAttribute("data-likes",mediaData.likes);
-        likesMedia.setAttribute("aria-label",`${mediaData.likes} likes sur cette photo `);
         likesMedia.style.opacity = 0; 
-        divInfosMedia.appendChild(likesMedia);
+        articleMedia.appendChild(likesMedia);
 
         let likesIcone = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         likesIcone.setAttribute("viewBox","-2 -2 25 25");
-        likesIcone.setAttribute("role","img");
-        likesIcone.setAttribute("aria-label","likes");
-        likesIcone.setAttribute("tabindex","0");
         likesIcone.classList.add("thumb-img__like-icone");
         likesIcone.innerHTML = '<path d="M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z" fill="#911C1C"/>';
         likesMedia.appendChild(likesIcone);
-
-        let titleMedia = document.createElement("div");
+        
+        let titleMedia = document.createElement("span");
         titleMedia.textContent = mediaData.title;
         titleMedia.classList.add("thumb-img__title");
-        titleMedia.setAttribute("aria-hidden","true");
         titleMedia.style.opacity = 0; 
         articleMedia.appendChild(titleMedia);
 
     }
     
     mainDataTotalLikesElement.textContent = getTotalLikes()
-    mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
     mainDataElement.style.opacity = 1;
 
     const likeIcones = document.querySelectorAll(".thumb-img__like-icone");
     likeIcones.forEach((element) => element.addEventListener("click", function() {
         if (element.classList.contains('liked')) {
             element.classList.remove('liked'); 
-            element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) - 1 );
+            element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) - 1 )
+            mainDataTotalLikesElement.textContent = getTotalLikes()
         }
         else {
             element.classList.add('liked'); 
-            element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) + 1 );
+            element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) + 1 )
+            mainDataTotalLikesElement.textContent = getTotalLikes()
         }  
-        element.parentElement.setAttribute("aria-label",`${Number(element.parentElement.getAttribute("data-likes"))} likes sur cette photo`);
-        mainDataTotalLikesElement.textContent = getTotalLikes()
-        mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
     }));
 }
 
@@ -281,8 +257,6 @@ function createLightbox(mediasData) {
         if (mediaData.image) {
             let imgMediaLightbox = document.createElement("img");
             imgMediaLightbox.setAttribute("alt", mediaData.title);
-            imgMediaLightbox.setAttribute("aria-label",mediaData.title);
-            imgMediaLightbox.setAttribute("tabindex","0");
             imgMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.image));
             imgMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
             divMediaLightbox.appendChild(imgMediaLightbox);
@@ -297,8 +271,6 @@ function createLightbox(mediasData) {
         else if (mediaData.video) {
             let videoMediaLightbox = document.createElement("video");
             videoMediaLightbox.setAttribute("alt", mediaData.title);
-            videoMediaLightbox.setAttribute("aria-label",mediaData.title);
-            videoMediaLightbox.setAttribute("tabindex","0");
             videoMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.video + '#t=0.1'));
             videoMediaLightbox.setAttribute("controls","controls");
             videoMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
@@ -317,7 +289,7 @@ function createLightbox(mediasData) {
         titleMediaLightbox.classList.add("lightbox-imgfull__title");
         divMediaLightbox.appendChild(titleMediaLightbox);
         titleMediaLightbox.style.opacity = 0; 
-        lightBoxContent.insertBefore(divMediaLightbox, firstChildLightboxContent);
+        lightBoxContent.appendChild(divMediaLightbox);
     }
 }
 

@@ -14,6 +14,8 @@
     align-items: center;
     &-content {
         position: relative;
+        display: flex;
+        align-items: center;
     }
     &-imgfull {
         width: 85vmin;
@@ -39,8 +41,9 @@
     }
 
     .icon-prev, .icon-next, .icon-close  {
-        margin: 0px 2vmin;
         cursor: pointer;
+        border:none;
+        background: none;
         svg {
             width: 4vmin;
         }
@@ -52,12 +55,19 @@
         position: absolute;
         margin:0;
         top: -2vmin;
-        right: -6vmin;
+        right: 1vmin;
+        svg {
+            width: 4.5vmin;
+        }
     }
 
     & .icon-prev  {
-        order:-1;
+        margin: 0px 2.5vmin;
         transform: rotate(180deg);
+        order:-1;
+    }
+    & .icon-next  {
+        margin: 0px 2vmin;
     }
 
   }
