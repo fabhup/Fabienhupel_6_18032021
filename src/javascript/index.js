@@ -130,16 +130,18 @@ function getPhotographers(response) {
             liTagPhotographer.classList.add("photographer-tags-item");
             ulTagsPhotographer.appendChild(liTagPhotographer);
 
-            let buttonTagPhotographer = document.createElement("button");
-            buttonTagPhotographer.classList.add("btn-tag");
-            buttonTagPhotographer.classList.add("btn-tag--" + photographerData.tags[tag]);
-            buttonTagPhotographer.textContent = "#" + photographerData.tags[tag];
-            liTagPhotographer.appendChild(buttonTagPhotographer);
-            
-            let spanTagPhotographer = document.createElement("span");
-            spanTagPhotographer.classList.add("sr-only");
-            spanTagPhotographer.textContent = 'Tag ' + photographerData.tags[tag];
-            liTagPhotographer.appendChild(spanTagPhotographer);
+            let linkTagPhotographer = document.createElement("a");
+            linkTagPhotographer.setAttribute("href",`./photograph.html?id=${photographerData.id}&tag=${photographerData.tags[tag]}`);
+            linkTagPhotographer.classList.add("btn-tag");
+            linkTagPhotographer.classList.add("btn-tag--" + photographerData.tags[tag]);
+            linkTagPhotographer.textContent = "#" + photographerData.tags[tag];
+            linkTagPhotographer.setAttribute("aria-label",`photos de ${photographerData.name} avec tag ${photographerData.tags[tag]}`);
+            liTagPhotographer.appendChild(linkTagPhotographer);
+          
+            // let spanTagPhotographer = document.createElement("span");
+            // spanTagPhotographer.classList.add("sr-only");
+            // spanTagPhotographer.textContent = 'Tag ' + photographerData.tags[tag];
+            // liTagPhotographer.appendChild(spanTagPhotographer);
         }
     }
 }
@@ -163,7 +165,7 @@ function filterSelectedTag() {
         this.setAttribute('aria-pressed',"true");
         articlesPhotographer.forEach((articleElement) => { 
             articleElement.classList.remove('hidden');
-            if (!articleElement.querySelector(`button[class~="${selectedTagNameClass}"]`)) {
+            if (!articleElement.querySelector(`a[class~="${selectedTagNameClass}"]`)) {
                 articleElement.classList.add('hidden')
             }
         })

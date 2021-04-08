@@ -137,6 +137,8 @@
                 stroke: $colour-primary;
                 stroke-width: 2px;
                 transition: fill 1s ease-in-out;
+                /* ensure path will never be the target of mouse event */
+                pointer-events: none;
             }
             &:hover {
                 transform: scale(1.1);

@@ -1,9 +1,16 @@
 
+.btn {
+  @include btn;
+  background: transparent;
+  border: none;
+}
+
 .btn-tag {
   @include btn;
   color: $colour-primary;
   background: transparent;
   border-radius: 11px;
+  display: block;
   &:hover, &:active, &:focus {
     background: $colour-background-light;
   }

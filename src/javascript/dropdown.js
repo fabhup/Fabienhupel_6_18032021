@@ -5,7 +5,7 @@ const dropdownOpened = document.getElementById("dropdown-opened");
 const dropdownClosed = document.getElementById("dropdown-closed");
 const dropdownOptions = document.querySelectorAll(".dropdown-option"); 
 const dropdownLabel= document.getElementById("dropdown-label");
-console.log(dropdownOptions);
+
 // Variables declaration
 const formatSortingOptions = {
     "likes": "number",
@@ -72,7 +72,7 @@ function closeDropdown() {
 }
 
 /**
- * Function to
+ * Function for manage event on dropdown Element options
  * 
  * @param {element} element 
  */

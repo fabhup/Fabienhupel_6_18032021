@@ -178,4 +178,12 @@ modalContactForm.addEventListener("submit", function (e) {
     document.querySelectorAll(".input-error")[0].previousSibling.focus()
   }
 
-})
+});
+
+
+// Lightbox Event Keyboard
+modalContact.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeModalContact();
+  }
+});

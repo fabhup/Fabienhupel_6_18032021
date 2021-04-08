@@ -5,7 +5,6 @@ const url = './src/data/database.json'
 const photographerGallery = document.getElementById('photographer-gallery');
 const modalContactTitle = document.getElementById('modal-contact__title');
 const spanmodalContactConfirmMessage = document.getElementById('confirm-message');
-const firstChildLightboxContent = document.getElementById('lightbox-content').firstChild;
 
 // Get current Id Photograph (to filter data on this id)
 const filtersDataPhotograph = { 
@@ -25,11 +24,13 @@ function filterMediasOnSelectedTag() {
     const selectedTagName = eltClasses.filter(x => x.startsWith('btn-tag--'))[0].replace('btn-tag--','');
     const medias = document.querySelectorAll('.thumb-imgfull');
     const buttonsTagsPressed = document.querySelectorAll('button[class~="btn-tag"][aria-pressed="true"]');
+    const url = new URL(window.location.href);
 
     if (this.getAttribute('aria-pressed')=="true") {
         medias.forEach((media) => { 
             media.classList.remove('hidden')
         })
+        url.searchParams.delete('tag'); //update url : delete tag parameter
     }
     else {
         this.setAttribute('aria-pressed',"true");
@@ -41,11 +42,13 @@ function filterMediasOnSelectedTag() {
                 media.classList.add('hidden')
             }
         })
+        url.searchParams.set('tag', selectedTagName); //update url with new tag parameter
     }
     buttonsTagsPressed.forEach((buttonElement) => { 
         buttonElement.setAttribute('aria-pressed',"false");
     })
     this.blur(); // to make the focus disappear
+    window.history.replaceState(null, null, url); // or pushState
 }
 
 /**
@@ -83,6 +86,7 @@ function createElementsOnPhotographData(photographerData) {
         let buttonTagPhotographer = document.createElement("button");
         buttonTagPhotographer.classList.add("btn-tag");
         buttonTagPhotographer.setAttribute("role","button");
+        buttonTagPhotographer.setAttribute("id","btn-tag--" + photographerData.tags[tag]);
         buttonTagPhotographer.classList.add("btn-tag--" + photographerData.tags[tag]);
         buttonTagPhotographer.textContent = "#" + photographerData.tags[tag];
         buttonTagPhotographer.setAttribute("aria-label",("Tag " + photographerData.tags[tag]));
@@ -131,6 +135,19 @@ function getTotalLikes() {
 }
 
 /**
+ * Function to apply filter on tag if its in url parameter
+ */
+function selectTagFromUrl() {
+    try {
+        const searchTagId = "btn-tag--" + getParameterByName('tag');
+        const selectedTagButtonElement = document.getElementById(searchTagId);
+        selectedTagButtonElement.click();
+    }
+    catch {   
+    }
+}
+
+/**
  * Function to create or update HTML elements depending on mediasData extracted
  * @param {object} mediasData 
  */
@@ -160,17 +177,23 @@ function createElementsOnMediasData(mediasData) {
 
         photographerGallery.appendChild(articleMedia);
 
+        let linkMedia = document.createElement("a");
+        linkMedia.setAttribute("href","#");
+        linkMedia.setAttribute("aria-label",`${mediaData.title}, vue agrandie`);
+        linkMedia.setAttribute("tabindex","0");
+        linkMedia.setAttribute("role","link");
+        linkMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
+        articleMedia.appendChild(linkMedia);
+        
         if (mediaData.image) {
             let imgMedia = document.createElement("img");
             imgMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.image));
-            imgMedia.setAttribute("alt", mediaData.title);
-            imgMedia.setAttribute("role","link");
+            // imgMedia.setAttribute("alt", mediaData.title);
             imgMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            imgMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             imgMedia.classList.add("thumb-img");
-            imgMedia.setAttribute("tabindex","0");
-            articleMedia.appendChild(imgMedia);
-            imgMedia.style.opacity = 0;
+            linkMedia.appendChild(imgMedia);
+
+            imgMedia.style.opacity = 0; //change style to load all media informations after img load
             imgMedia.addEventListener("load", function() 
                 { priceMedia.style.opacity = 1;   
                   likesMedia.style.opacity = 1;
@@ -184,13 +207,11 @@ function createElementsOnMediasData(mediasData) {
             let videoMedia = document.createElement("video");
             videoMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.video + '#t=0.1'));
             videoMedia.setAttribute("alt",mediaData.title);
-            videoMedia.setAttribute("role","link");
             videoMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            videoMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
             videoMedia.classList.add("thumb-img");
-            videoMedia.setAttribute("tabindex","0");
-            articleMedia.appendChild(videoMedia);
-            videoMedia.style.opacity = 0;
+            linkMedia.appendChild(videoMedia);
+
+            videoMedia.style.opacity = 0; //event to load all media informations after video load
             videoMedia.addEventListener("loadedmetadata", function() 
                 { priceMedia.style.opacity = 1;   
                   likesMedia.style.opacity = 1;
@@ -210,7 +231,7 @@ function createElementsOnMediasData(mediasData) {
         let priceMedia = document.createElement("span");
         priceMedia.textContent = mediaData.price + ' €';
         priceMedia.classList.add("thumb-img__price");
-        priceMedia.setAttribute("aria-label",`Tarif de la photo ${mediaData.price} euros`);
+        priceMedia.setAttribute("aria-label",`Tarif du média ${mediaData.price} euros`);
         priceMedia.setAttribute("role","text");
         priceMedia.style.opacity = 0; 
         divInfosMedia.appendChild(priceMedia);
@@ -218,14 +239,14 @@ function createElementsOnMediasData(mediasData) {
         let likesMedia = document.createElement("div");
         likesMedia.classList.add("thumb-img__likes");
         likesMedia.setAttribute("data-likes",mediaData.likes);
-        likesMedia.setAttribute("aria-label",`${mediaData.likes} likes sur cette photo `);
+        likesMedia.setAttribute("aria-label",`${mediaData.likes} likes sur ce média`);
         likesMedia.style.opacity = 0; 
         divInfosMedia.appendChild(likesMedia);
 
         let likesIcone = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         likesIcone.setAttribute("viewBox","-2 -2 25 25");
-        likesIcone.setAttribute("role","img");
-        likesIcone.setAttribute("aria-label","likes");
+        likesIcone.setAttribute("role","button");
+        likesIcone.setAttribute("aria-label","likes, you don't like it yet");
         likesIcone.setAttribute("tabindex","0");
         likesIcone.classList.add("thumb-img__like-icone");
         likesIcone.innerHTML = '<path d="M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z" fill="#911C1C"/>';
@@ -244,82 +265,35 @@ function createElementsOnMediasData(mediasData) {
     mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
     mainDataElement.style.opacity = 1;
 
+    //event on likes icones
     const likeIcones = document.querySelectorAll(".thumb-img__like-icone");
-    likeIcones.forEach((element) => element.addEventListener("click", function() {
+    function likeEvent(element) {
         if (element.classList.contains('liked')) {
             element.classList.remove('liked'); 
+            element.setAttribute("aria-label","likes, you don't like it yet");
             element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) - 1 );
         }
         else {
             element.classList.add('liked'); 
+            element.setAttribute("aria-label","likes, you like it");
             element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) + 1 );
         }  
         element.parentElement.setAttribute("aria-label",`${Number(element.parentElement.getAttribute("data-likes"))} likes sur cette photo`);
         mainDataTotalLikesElement.textContent = getTotalLikes()
         mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
+    }
+    likeIcones.forEach((element) => element.addEventListener("click", event => {
+        console.log(event.target);
+        likeEvent(event.target);
+    }));
+    likeIcones.forEach((element) => element.addEventListener("keypress", event => {
+        event.preventDefault();
+        if (event.keyCode == 32) { // event for space key 
+            likeEvent(event.target);          
+        }
     }));
 }
 
-/**
- * Function to create Lightbox depending on mediasData extracted
- * @param {object} mediasData 
- */
-function createLightbox(mediasData) {
-    const urlImagesMedia = "./public/images/photographers/medias/";
-    const urlImagesMediaPhotographerLarge = urlImagesMedia + "large/" + getParameterByName('id') + '/';
-    const lightBoxContent = document.getElementById('lightbox-content');
-
-    for (mediaIndex in mediasData) {
-        
-        const mediaData = mediasData[mediaIndex]
-     
-        let divMediaLightbox = document.createElement("div");
-        divMediaLightbox.classList.add("lightbox-imgfull");
-        divMediaLightbox.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
-        divMediaLightbox.style.backgroundPosition = "center";
-
-        if (mediaData.image) {
-            let imgMediaLightbox = document.createElement("img");
-            imgMediaLightbox.setAttribute("alt", mediaData.title);
-            imgMediaLightbox.setAttribute("aria-label",mediaData.title);
-            imgMediaLightbox.setAttribute("tabindex","0");
-            imgMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.image));
-            imgMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            divMediaLightbox.appendChild(imgMediaLightbox);
-            imgMediaLightbox.style.opacity = 0;
-            imgMediaLightbox.addEventListener("load", function() 
-                { titleMediaLightbox.style.opacity = 1;
-                  imgMediaLightbox.style.opacity = 1;
-                  divMediaLightbox.style.background = "none";
-                }
-            );
-        }
-        else if (mediaData.video) {
-            let videoMediaLightbox = document.createElement("video");
-            videoMediaLightbox.setAttribute("alt", mediaData.title);
-            videoMediaLightbox.setAttribute("aria-label",mediaData.title);
-            videoMediaLightbox.setAttribute("tabindex","0");
-            videoMediaLightbox.setAttribute("src",(urlImagesMediaPhotographerLarge + mediaData.video + '#t=0.1'));
-            videoMediaLightbox.setAttribute("controls","controls");
-            videoMediaLightbox.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            divMediaLightbox.appendChild(videoMediaLightbox);
-            videoMediaLightbox.style.opacity = 0;
-            videoMediaLightbox.addEventListener("loadedmetadata", function() 
-                { titleMediaLightbox.style.opacity = 1;
-                  videoMediaLightbox.style.opacity = 1;
-                  divMediaLightbox.style.background = "none";
-                }
-            );
-        } 
-
-        let titleMediaLightbox = document.createElement("span");
-        titleMediaLightbox.textContent = mediaData.title;
-        titleMediaLightbox.classList.add("lightbox-imgfull__title");
-        divMediaLightbox.appendChild(titleMediaLightbox);
-        titleMediaLightbox.style.opacity = 0; 
-        lightBoxContent.insertBefore(divMediaLightbox, firstChildLightboxContent);
-    }
-}
 
 /**
  * Function to get photographers and media Datas and update html (on promises)
@@ -332,7 +306,7 @@ function loadData() {
     getData(url,'media')
     .then(extractData => filterData(extractData,filtersDataMedia))
     .then(extractData => (createElementsOnMediasData(extractData)))
-}
+}   
 
 /**
  * Function to get photographers and media Datas and update html (on promises)
@@ -347,5 +321,9 @@ function loadLightbox() {
 loadData();
 
 //Load Lightbox (after LoadData)
-loadLightbox()
+loadLightbox();
+
+
+
+
 

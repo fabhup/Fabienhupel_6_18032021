@@ -63,6 +63,30 @@ a {
   cursor: pointer;
 }
 
+.btn {
+  border: 0.5px solid #C4C4C4;
+  box-sizing: border-box;
+  padding: 0.5px 9px 1px;
+  margin: 4px 0px;
+  font-size: calc(0.6rem + 0.4vw);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
+  overflow: hidden;
+  transform: scale(1);
+  transition: transform 0.12s ease-in-out;
+  background: transparent;
+  border: none;
+}
+.btn:hover, .btn:active, .btn:focus {
+  -webkit-tap-highlight-color: transparent;
+  transform: scale(1.05);
+}
+.btn:active {
+  outline: none !important;
+}
+
 .btn-tag {
   border: 0.5px solid #C4C4C4;
   box-sizing: border-box;
@@ -79,6 +103,7 @@ a {
   color: #901C1C;
   background: transparent;
   border-radius: 11px;
+  display: block;
 }
 .btn-tag:hover, .btn-tag:active, .btn-tag:focus {
   -webkit-tap-highlight-color: transparent;
@@ -258,8 +283,6 @@ a {
   height: 100%;
   overflow: auto;
   background-color: white;
-  width: 100%;
-  height: 100%;
   justify-content: center;
   align-items: center;
 }
@@ -269,8 +292,8 @@ a {
   align-items: center;
 }
 .lightbox-imgfull {
-  width: 85vmin;
-  height: 85vmin;
+  width: 80vmin;
+  height: 80vmin;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -300,8 +323,8 @@ a {
 .lightbox .icon-close {
   position: absolute;
   margin: 0;
-  top: -2vmin;
-  right: 1vmin;
+  top: -1vmin;
+  right: 2vmin;
 }
 .lightbox .icon-close svg {
   width: 4.5vmin;
@@ -703,6 +726,8 @@ label, input {
   stroke: #901C1C;
   stroke-width: 2px;
   transition: fill 1s ease-in-out;
+  /* ensure path will never be the target of mouse event */
+  pointer-events: none;
 }
 .photographer-gallery .thumb-imgfull svg:hover {
   transform: scale(1.1);
