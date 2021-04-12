@@ -2,9 +2,11 @@
 const url = './src/data/database.json'
 
 // DOM Elements variables
-const photographerGallery = document.getElementById('photographer-gallery');
+// const photographerGallery = document.getElementById('photographer-gallery');
 const modalContactTitle = document.getElementById('modal-contact__title');
 const spanmodalContactConfirmMessage = document.getElementById('confirm-message');
+const firstChildLightboxContent = document.getElementById('lightbox-content').firstChild;
+
 
 // Get current Id Photograph (to filter data on this id)
 const filtersDataPhotograph = { 
@@ -14,6 +16,60 @@ const filtersDataMedia = {
     "photographerId": (x => x == getParameterByName('id'))
     // ,"tags": (x => x.includes(getParameterByName('tag')))
 };
+
+
+/**
+ * Function to Extract Data from an url of json file
+ * @param {string} urlJSON 
+ * @param {string} dataToExtract 
+ */
+const getData = (urlJSON, dataToExtract) => {
+    return fetch(urlJSON)
+      .then((response) => response.json())
+    //   .catch((errorFetch) => console.log(`Erreur réseau avec l'url ${url}`, errorFetch))
+      .then(jsonResponse => {
+          return jsonResponse[dataToExtract]
+      })
+    //   .catch(errorGetMedia => console.log("Requête invalide", errorGetMedia))
+  }
+  
+/**
+ * Filter data parameter on each filters parameters 
+ * @param {object} data 
+ * @param {object} filters -- ex {"id": 112}
+ */
+const filterData = (data, filters) => (data.filter(data => 
+    Object.keys(filters).every(key => filters[key](data[key]))))
+
+/**
+ * Function to extract a parameter value in an url from the name of the parameter
+ * 
+ * @param {string} name 
+ * @param {string} url 
+ * @return {string}
+ */
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+        name = name.replace(/[[]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+/**
+ * Function to apply filter on tag if its in url parameter
+ */
+function selectTagFromUrl() {
+    try {
+        const searchTagId = "btn-tag--" + getParameterByName('tag');
+        const selectedTagButtonElement = document.getElementById(searchTagId);
+        selectedTagButtonElement.click();
+    }
+    catch {   //nothing to do if no tag detected in url
+    }
+  }
 
 /**
  * function that display or hide html elements depending on selected tag button 
@@ -25,7 +81,7 @@ function filterMediasOnSelectedTag() {
     const medias = document.querySelectorAll('.thumb-imgfull');
     const buttonsTagsPressed = document.querySelectorAll('button[class~="btn-tag"][aria-pressed="true"]');
     const url = new URL(window.location.href);
-
+    
     if (this.getAttribute('aria-pressed')=="true") {
         medias.forEach((media) => { 
             media.classList.remove('hidden')
@@ -36,8 +92,6 @@ function filterMediasOnSelectedTag() {
         this.setAttribute('aria-pressed',"true");
         medias.forEach((media) => { 
             media.classList.remove('hidden');
-            console.log(media.getAttribute('data-tags'));
-            console.log(selectedTagName);
             if (media.getAttribute('data-tags') != selectedTagName) {
                 media.classList.add('hidden')
             }
@@ -56,13 +110,12 @@ function filterMediasOnSelectedTag() {
  * @param {object} photographerData 
  */
 function createElementsOnPhotographData(photographerData) {
-    
     const headerPhotographer = document.getElementById('photographer-header');
     const h2PhotographerName = document.getElementById('photographer-profile__name');
     const spanPhotographerLocation = document.getElementById('photographer-profile__location');
     const spanPhotographerTagline = document.getElementById('photographer-profile__tagline');
     const divTagsPhotographer = document.getElementById('photographer-tags');
-    const urlImagesPhotgraphers= "./public/images/photographers/Photographers ID Photos/";;
+    const urlImagesPhotgraphers= "./public/images/photographers/Photographers ID Photos/";
     const mainDataPriceElement = document.getElementById('photographer-main-data__price');
     const btnOpenModalContact = document.getElementById('btn-contact');
     const divdropdown = document.getElementById("dropdown");
@@ -78,25 +131,22 @@ function createElementsOnPhotographData(photographerData) {
     let ulTagsPhotographer = document.createElement("ul");
     divTagsPhotographer.appendChild(ulTagsPhotographer);
 
-    for (tag in photographerData.tags) {
+    for (const tag in photographerData.tags) {
         let liTagPhotographer = document.createElement("li");
         liTagPhotographer.classList.add("photographer-tags-item");
         ulTagsPhotographer.appendChild(liTagPhotographer);
 
         let buttonTagPhotographer = document.createElement("button");
         buttonTagPhotographer.classList.add("btn-tag");
-        buttonTagPhotographer.setAttribute("role","button");
-        buttonTagPhotographer.setAttribute("id","btn-tag--" + photographerData.tags[tag]);
         buttonTagPhotographer.classList.add("btn-tag--" + photographerData.tags[tag]);
-        buttonTagPhotographer.textContent = "#" + photographerData.tags[tag];
+        buttonTagPhotographer.setAttribute("id","btn-tag--" + photographerData.tags[tag]);
+        buttonTagPhotographer.setAttribute("role","button");
         buttonTagPhotographer.setAttribute("aria-label",("Tag " + photographerData.tags[tag]));
-        buttonTagPhotographer.setAttribute("aria-pressed","false");
+        buttonTagPhotographer.setAttribute("aria-pressed","false");        
+        buttonTagPhotographer.textContent = "#" + photographerData.tags[tag];
+
         liTagPhotographer.appendChild(buttonTagPhotographer);
         
-        // let spanTagPhotographer = document.createElement("span");
-        // spanTagPhotographer.classList.add("sr-only");
-        // spanTagPhotographer.textContent = 'Tag ' + photographerData.tags[tag];
-        // liTagPhotographer.appendChild(spanTagPhotographer);
     }
 
     let imgPhotographer = document.createElement("img");
@@ -135,32 +185,17 @@ function getTotalLikes() {
 }
 
 /**
- * Function to apply filter on tag if its in url parameter
- */
-function selectTagFromUrl() {
-    try {
-        const searchTagId = "btn-tag--" + getParameterByName('tag');
-        const selectedTagButtonElement = document.getElementById(searchTagId);
-        selectedTagButtonElement.click();
-    }
-    catch {   
-    }
-}
-
-/**
  * Function to create or update HTML elements depending on mediasData extracted
  * @param {object} mediasData 
  */
 function createElementsOnMediasData(mediasData) {
     const photographerGallery = document.getElementById('photographer-gallery');
-    const urlImagesMedia = "./public/images/photographers/medias/";
-    const urlImagesMediaPhotographerSmall = urlImagesMedia + "small/" + getParameterByName('id') + '/';
     const mainDataElement = document.getElementById('photographer-main-data');
     const mainDataTotalLikesElement = document.getElementById('photographer-main-data__likes');
 
     mainDataElement.style.opacity = 0;
 
-    for (mediaIndex in mediasData) {
+    for (const mediaIndex in mediasData) {
         
         const mediaData = mediasData[mediaIndex]
      
@@ -184,45 +219,21 @@ function createElementsOnMediasData(mediasData) {
         linkMedia.setAttribute("role","link");
         linkMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
         articleMedia.appendChild(linkMedia);
+
+        const mediaType = mediaData.video ? "video" : "image";
+        const media = new Media(mediaType, mediaData);
+        const mediaElt = media.createElement();
+        linkMedia.appendChild(mediaElt);
         
-        if (mediaData.image) {
-            let imgMedia = document.createElement("img");
-            imgMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.image));
-            // imgMedia.setAttribute("alt", mediaData.title);
-            imgMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            imgMedia.classList.add("thumb-img");
-            linkMedia.appendChild(imgMedia);
-
-            imgMedia.style.opacity = 0; //change style to load all media informations after img load
-            imgMedia.addEventListener("load", function() 
-                { priceMedia.style.opacity = 1;   
-                  likesMedia.style.opacity = 1;
-                  titleMedia.style.opacity = 1;
-                  imgMedia.style.opacity = 1;
-                  articleMedia.style.background = "none";
-                }
-            );
-        }
-        else if (mediaData.video) {
-            let videoMedia = document.createElement("video");
-            videoMedia.setAttribute("src",(urlImagesMediaPhotographerSmall + mediaData.video + '#t=0.1'));
-            videoMedia.setAttribute("alt",mediaData.title);
-            videoMedia.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
-            videoMedia.classList.add("thumb-img");
-            linkMedia.appendChild(videoMedia);
-
-            videoMedia.style.opacity = 0; //event to load all media informations after video load
-            videoMedia.addEventListener("loadedmetadata", function() 
-                { priceMedia.style.opacity = 1;   
-                  likesMedia.style.opacity = 1;
-                  titleMedia.style.opacity = 1;
-                  videoMedia.style.opacity = 1;
-                  articleMedia.style.background = "none";
-                });
-        } 
-
-        // let divInfosMedia = document.createElement("div");
-        // articleMedia.appendChild(divInfosMedia);
+        const mediaEventType = mediaData.video ? "loadedmetadata" : "load";
+        mediaElt.style.opacity = 0;
+        mediaElt.addEventListener(mediaEventType, function() 
+        { priceMedia.style.opacity = 1;   
+          likesMedia.style.opacity = 1;
+          titleMedia.style.opacity = 1;
+          mediaElt.style.opacity = 1;
+          articleMedia.style.background = "none";
+        });
 
         let divInfosMedia = document.createElement("div");
         divInfosMedia.classList.add("thumb-img__infos");
@@ -260,7 +271,8 @@ function createElementsOnMediasData(mediasData) {
         articleMedia.appendChild(titleMedia);
 
     }
-    
+    sortData("likes","number","desc"); //sort by likes desc on load
+
     mainDataTotalLikesElement.textContent = getTotalLikes()
     mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
     mainDataElement.style.opacity = 1;
@@ -283,7 +295,6 @@ function createElementsOnMediasData(mediasData) {
         mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
     }
     likeIcones.forEach((element) => element.addEventListener("click", event => {
-        console.log(event.target);
         likeEvent(event.target);
     }));
     likeIcones.forEach((element) => element.addEventListener("keypress", event => {
@@ -293,7 +304,45 @@ function createElementsOnMediasData(mediasData) {
         }
     }));
 }
+  
+  /**
+   * Function to create Lightbox depending on mediasData extracted
+   * @param {object} mediasData 
+   */
+  function createLightbox(mediasData) {
+    const lightBoxContent = document.getElementById('lightbox-content');
+  
+    for (const mediaIndex in mediasData) {
+        
+        const mediaData = mediasData[mediaIndex]
+     
+        let divMediaLightbox = document.createElement("div");
+        divMediaLightbox.classList.add("lightbox-imgfull");
+        divMediaLightbox.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
+        divMediaLightbox.style.backgroundPosition = "center";
+        
+        const mediaType = mediaData.video ? "video" : "image";
+        const media = new Media(mediaType, mediaData);
+        const mediaElt = media.createElementInLightbox();
+        divMediaLightbox.appendChild(mediaElt);
 
+        const mediaEventType = mediaData.video ? "loadedmetadata" : "load";
+        mediaElt.style.opacity = 0;
+        mediaElt.addEventListener(mediaEventType, function() { 
+            titleMediaLightbox.style.opacity = 1;
+            mediaElt.style.opacity = 1;
+            divMediaLightbox.style.background = "none";
+        });
+  
+        let titleMediaLightbox = document.createElement("span");
+        titleMediaLightbox.textContent = mediaData.title;
+        titleMediaLightbox.classList.add("lightbox-imgfull__title");
+        divMediaLightbox.appendChild(titleMediaLightbox);
+        titleMediaLightbox.style.opacity = 0; 
+        lightBoxContent.insertBefore(divMediaLightbox, firstChildLightboxContent);
+    }
+    selectTagFromUrl();
+  }
 
 /**
  * Function to get photographers and media Datas and update html (on promises)

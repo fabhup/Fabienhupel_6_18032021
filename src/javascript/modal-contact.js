@@ -5,6 +5,7 @@ const modalContact = document.getElementById('modal-contact');
 const modalContactForm = document.getElementById('modal-contact__form');
 const modalContactContent = document.getElementById('modal-contact__content');
 const modalContactCloseMessage = document.getElementById('modal-contact__message');
+const btnOpenModalContact = document.getElementById('btn-contact');
 
 // Input Elements
 const firstnameInput = document.getElementById("firstname");
@@ -21,9 +22,7 @@ const errorMessageLength = "Votre message doit comprendre entre 10 et 300 caract
 // Regex Formats
 const emailRegexFormat = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 
-// Classes Validation Objects
-  let arrayInputValidationInstances = [];
-  
+// Classes Validation Objects  
   /**
    * class InputValidation : class to create objects for validate value of an inputElement  
    * */
@@ -37,7 +36,6 @@ const emailRegexFormat = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`
       this.inputElement = inputElement;
       this.validationTest = validationTest;
       this.errorMessage = errorMessage;
-      arrayInputValidationInstances.push(this);
     }
   }
 
@@ -79,17 +77,17 @@ function addErrorMessageInput(inputElement, errorMessage) {
     inputElement.setAttribute("aria-label",errorMessage);
 }
   
-/**
- * function removeErrorMessageInput() : function to remove an Error Message after an input Element
- *
- * @param {element} inputElement
- */
-function removeErrorMessageInput(inputElement) {
-  inputElement.removeAttribute("aria-label");
-  if (inputElement.nextSiblingElement.classList.contains("input-error")) {
-    inputElement.nextSiblingElement.remove();
-  }
-}
+// /**
+//  * function removeErrorMessageInput() : function to remove an Error Message after an input Element
+//  *
+//  * @param {element} inputElement
+//  */
+// function removeErrorMessageInput(inputElement) {
+//   inputElement.removeAttribute("aria-label");
+//   if (inputElement.nextSiblingElement.classList.contains("input-error")) {
+//     inputElement.nextSiblingElement.remove();
+//   }
+// }
 
 /**
  * function removeElements() : function to remove all elements in an array
@@ -116,7 +114,6 @@ modalContactForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // declaration and initialization of variables 
-  arrayInputValidationInstances = [];
   let isValidForm = true;
   
   // creation of InputValidation objects
@@ -144,6 +141,8 @@ modalContactForm.addEventListener("submit", function (e) {
     errorMessageLength
   );
 
+  let arrayInputValidationInstances = [FirstnameValidation, LastnameValidation, EmailValidation, MessageValidation];
+
     /* loop to test each validationTest
     - if the validationTest is true : the function removeErrorMessageInput() is applied on the inputElement 
     - if the validationTest is false : the function addErrorMessageInput() is applied on the inputElement
@@ -168,8 +167,7 @@ modalContactForm.addEventListener("submit", function (e) {
     const inputs = document.getElementsByClassName("form-input");
     for(var i = 0; i < inputs.length; i++) {
         console.log(inputs[i].labels[0].textContent + " : " + inputs[i].value);
-        
-    };
+    }
     modalContactCloseMessage.style.display = "flex";
     modalContactCloseMessage.focus()
     modalContactContent.style.display = "none";
@@ -180,10 +178,12 @@ modalContactForm.addEventListener("submit", function (e) {
 
 });
 
-
 // Lightbox Event Keyboard
 modalContact.addEventListener("keydown", event => {
   if (event.key === "Escape") {
     closeModalContact();
   }
 });
+
+//Click Event on Open Modal Contact button
+btnOpenModalContact.addEventListener("click", openModalContact);

@@ -106,7 +106,7 @@
                 padding: 0px 2px 0px 4px;
                 line-height: 1.6rem;
                 &[data-likes]::before { 
-                    content: attr(data-likes);
+                    content: attr(data-likes) / "";  // add / "" to hide for reed screeners
                 }
             }
             &__infos {

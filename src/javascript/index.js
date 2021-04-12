@@ -1,7 +1,5 @@
-
-// Variables declaration
+// Global Variables 
 const tagsList = ['portrait','art','fashion','architecture','travel','sport','animals','events'];
-const navElement = document.getElementsByClassName('header-navigation')[0];
 
 /**
  * Function that creates a list of button Tags from listTags in the navElement 
@@ -13,7 +11,7 @@ function createTagsNav(listOfTags) {
     let ulTags = document.createElement("ul");
     navElement.appendChild(ulTags);
         
-    for (tag in listOfTags) {
+    for (const tag in listOfTags) {
         let liTag = document.createElement("li");
         liTag.classList.add("header-navigation-item");
         ulTags.appendChild(liTag);
@@ -41,10 +39,6 @@ function ajaxGet(url, callback) {
         if (req.status >= 200 && req.status < 400) {
             callback(req.responseText);
         }
-    });
-    req.addEventListener("error", function() {
-        console.error("Erreur réseau avec l'URL " + url);
-        console.error("Statut: " + req.status + " " + req.statusText);
     });
     req.send(null);
 }
@@ -125,7 +119,7 @@ function getPhotographers(response) {
         let ulTagsPhotographer = document.createElement("ul");
         divTagsPhotographer.appendChild(ulTagsPhotographer);
 
-        for (tag in photographerData.tags) {
+        for (const tag in photographerData.tags) {
             let liTagPhotographer = document.createElement("li");
             liTagPhotographer.classList.add("photographer-tags-item");
             ulTagsPhotographer.appendChild(liTagPhotographer);
@@ -137,17 +131,12 @@ function getPhotographers(response) {
             linkTagPhotographer.textContent = "#" + photographerData.tags[tag];
             linkTagPhotographer.setAttribute("aria-label",`photos de ${photographerData.name} avec tag ${photographerData.tags[tag]}`);
             liTagPhotographer.appendChild(linkTagPhotographer);
-          
-            // let spanTagPhotographer = document.createElement("span");
-            // spanTagPhotographer.classList.add("sr-only");
-            // spanTagPhotographer.textContent = 'Tag ' + photographerData.tags[tag];
-            // liTagPhotographer.appendChild(spanTagPhotographer);
         }
     }
 }
 
 /**
- * function that display or hide html elements depending on selected tag button 
+ * Function that display or hide html elements depending on selected tag button 
  * 
  */
 function filterSelectedTag() {
