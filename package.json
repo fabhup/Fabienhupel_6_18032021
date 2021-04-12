@@ -6,7 +6,8 @@
   "scripts": {
     "sass": "sass --watch ./sass/main.scss:./public/css/style.css",
     "prefix": "postcss ./public/css/style.css --use autoprefixer -d ./public/css/prefixed/",
-    "lint": "eslint src/javascript/*.js"},
+    "lint": "eslint src/javascript/*.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fabhup/Fabienhupel_6_18032021.git"
@@ -18,10 +19,13 @@
   },
   "homepage": "https://github.com/fabhup/Fabienhupel_6_18032021#readme",
   "browserslist": "last 4 versions",
+
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "webpack": "^5.31.2",
+    "webpack-cli": "^4.6.0"
+  },
   "dependencies": {
     "file-system": "^2.2.2"
-  },
-  "devDependencies": {
-    "eslint": "^7.23.0"
   }
 }

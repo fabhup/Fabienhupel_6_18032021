@@ -61,17 +61,17 @@
     <div id="lightbox" class="lightbox" role="dialog" aria-label="vue image aggrandie" tabindex="0">
         
         <div id="lightbox-content" class="lightbox-content">
-            <button class="icon-prev" aria-label="Photo précédente" onclick="moveIndex(-1)" tabindex="0"> 
+            <button id="icon-prev" class="icon-prev" aria-label="Photo précédente" tabindex="0"> 
                 <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
                 </svg>
             </button>
-            <button class="icon-next" aria-label="Photo suivante" onclick="moveIndex(1)" tabindex="0">
+            <button id="icon-next" class="icon-next" aria-label="Photo suivante" tabindex="0">
                 <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
                 </svg>
             </button>
-            <button class="icon-close" aria-label="Fermer et retour page photographe"  onclick="closeLightbox()" tabindex="0">
+            <button id="icon-close-lightbox" class="icon-close" aria-label="Fermer et retour page photographe" tabindex="0">
                 <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="#911C1C"/>
                 </svg>    
@@ -148,10 +148,9 @@
             <button class="btn-close" onclick="closeModalContact()" tabindex="0" aria-label="Fermer fenêtre de contact">Fermer</button>
         </div>
     </div>   
-    <script src="./src/javascript/photograph.js"></script>
-    <script src="./src/javascript/media-factory.js"></script>
-    <script src="./src/javascript/lightbox.js"></script>
+    <script type="module" src="./src/javascript/photograph.js"></script>
+    <script type="module" src="./src/javascript/lightbox.js"></script>
     <script src="./src/javascript/modal-contact.js"></script>
-    <script src="./src/javascript/dropdown.js"></script>
+    <script type="module" src="./src/javascript/dropdown.js"></script>
 </body>
 </html>

@@ -1,7 +1,10 @@
+import {openLightbox, showMediaIndex} from './lightbox.js'
+
 // DOM Elements variables
 const dropdown = document.getElementById("dropdown-content");
 const dropdownList = document.getElementById("dropdown-list");
 const dropdownOptions = document.querySelectorAll(".dropdown-option"); 
+const firstChildLightboxContent = document.getElementById('lightbox-content').firstChild.nextElementSibling;
 
 // Variables declaration
 const formatSortingOptions = {
@@ -18,15 +21,22 @@ const formatSortingOptions = {
  */
 function sortData(keySort, formatSort, orderSort='asc') {
   const photographerGallery = document.getElementById('photographer-gallery');
+  const lightbox = document.getElementById('lightbox-content');
   const mediasElements = document.getElementsByClassName('thumb-imgfull');
+  const mediasLightBoxElements = document.getElementsByClassName('lightbox-imgfull');
   let mediasElementsArray = [];
-  for (var i in mediasElements) {
-      if (mediasElements[i].nodeType == 1) { 
-          mediasElementsArray.push(mediasElements[i]);
+  for (var indexElt in mediasElements) {
+      if (mediasElements[indexElt].nodeType == 1) { 
+          mediasElementsArray.push(mediasElements[indexElt]);
       }
   }
-
-  mediasElementsArray.sort(function(a, b) {
+  let mediasLightboxElementsArray = [];
+  for (var indexEltLightbox in mediasLightBoxElements) {
+      if (mediasLightBoxElements[indexEltLightbox].nodeType == 1) { 
+        mediasLightboxElementsArray.push(mediasLightBoxElements[indexEltLightbox]);
+      }
+  }
+  const sortElements = () => function(a, b) {
     const aValue = a.getAttribute(`data-${keySort}`);
     const bValue = b.getAttribute(`data-${keySort}`);
     
@@ -46,10 +56,18 @@ function sortData(keySort, formatSort, orderSort='asc') {
       else if (aValue < bValue) {return 1} 
       else {return 0}
     }
-  });
-
+  }
+  mediasElementsArray.sort(sortElements());
   for (const el in mediasElementsArray) {
-      photographerGallery.appendChild(mediasElementsArray[el]);
+    photographerGallery.appendChild(mediasElementsArray[el]);
+    mediasElementsArray[el].firstChild.addEventListener("click",function() {
+      openLightbox();
+      showMediaIndex(el);
+  });
+  }
+  mediasLightboxElementsArray.sort(sortElements());
+  for (const el in mediasLightboxElementsArray) {
+    lightbox.insertBefore(mediasLightboxElementsArray[el],firstChildLightboxContent);
   }
 }
 
@@ -131,3 +149,5 @@ dropdown.addEventListener("click",function() {
   }
   dropdownList.focus();
 });
+
+export {sortData}

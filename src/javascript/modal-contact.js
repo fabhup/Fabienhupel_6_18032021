@@ -166,6 +166,8 @@ modalContactForm.addEventListener("submit", function (e) {
   if (isValidForm) {
     const inputs = document.getElementsByClassName("form-input");
     for(var i = 0; i < inputs.length; i++) {
+      // Log in console the inputs value and desactive error no-console eslint
+      // eslint-disable-next-line no-console 
         console.log(inputs[i].labels[0].textContent + " : " + inputs[i].value);
     }
     modalContactCloseMessage.style.display = "flex";

@@ -1,3 +1,4 @@
+import {getParameterByName} from './manage-data.js'
 
 const urlImagesMedia = "./public/images/photographers/medias/";
 const urlImagesMediaPhotographerSmall = urlImagesMedia + "small/" + getParameterByName('id') + '/';
@@ -7,7 +8,7 @@ const urlImagesMediaPhotographerLarge = urlImagesMedia + "large/" + getParameter
  * function that display or hide html elements depending on selected tag button 
  * 
  */
-const Image = function({ title, image }) {
+const ImageMedia = function({ title, image }) {
     this.title = title || "Titre inconnu";
     this.image = image || "";
     this.type = "image"
@@ -32,7 +33,7 @@ const Image = function({ title, image }) {
     };
   };
 
-  const Video = function({ title, video }) {
+  const VideoMedia = function({ title, video }) {
     this.title = title || "Titre inconnu";
     this.video = video || "";
     this.type = "video"
@@ -62,9 +63,11 @@ const Image = function({ title, image }) {
 
 const Media = function(type, mediaData) {
     if (type == "image") {
-        return new Image(mediaData)
+        return new ImageMedia(mediaData)
     }
     else if (type == "video") {
-        return new Video(mediaData)
+        return new VideoMedia(mediaData)
     }
 };
+
+export {Media}

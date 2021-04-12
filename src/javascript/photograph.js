@@ -1,12 +1,14 @@
+import {getData, getParameterByName, filterData, filterMediasOnSelectedTag, selectTagFromUrl} from './manage-data.js'
+import {Media} from './media-factory.js'
+import {sortData} from './dropdown.js'
+import {openLightbox, showMediaIndex} from './lightbox.js'
+
 // Variables declaration
-const url = './src/data/database.json'
+const urlData = './src/data/database.json'
 
 // DOM Elements variables
-// const photographerGallery = document.getElementById('photographer-gallery');
 const modalContactTitle = document.getElementById('modal-contact__title');
 const spanmodalContactConfirmMessage = document.getElementById('confirm-message');
-const firstChildLightboxContent = document.getElementById('lightbox-content').firstChild;
-
 
 // Get current Id Photograph (to filter data on this id)
 const filtersDataPhotograph = { 
@@ -16,94 +18,6 @@ const filtersDataMedia = {
     "photographerId": (x => x == getParameterByName('id'))
     // ,"tags": (x => x.includes(getParameterByName('tag')))
 };
-
-
-/**
- * Function to Extract Data from an url of json file
- * @param {string} urlJSON 
- * @param {string} dataToExtract 
- */
-const getData = (urlJSON, dataToExtract) => {
-    return fetch(urlJSON)
-      .then((response) => response.json())
-    //   .catch((errorFetch) => console.log(`Erreur réseau avec l'url ${url}`, errorFetch))
-      .then(jsonResponse => {
-          return jsonResponse[dataToExtract]
-      })
-    //   .catch(errorGetMedia => console.log("Requête invalide", errorGetMedia))
-  }
-  
-/**
- * Filter data parameter on each filters parameters 
- * @param {object} data 
- * @param {object} filters -- ex {"id": 112}
- */
-const filterData = (data, filters) => (data.filter(data => 
-    Object.keys(filters).every(key => filters[key](data[key]))))
-
-/**
- * Function to extract a parameter value in an url from the name of the parameter
- * 
- * @param {string} name 
- * @param {string} url 
- * @return {string}
- */
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-        name = name.replace(/[[]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-/**
- * Function to apply filter on tag if its in url parameter
- */
-function selectTagFromUrl() {
-    try {
-        const searchTagId = "btn-tag--" + getParameterByName('tag');
-        const selectedTagButtonElement = document.getElementById(searchTagId);
-        selectedTagButtonElement.click();
-    }
-    catch {   //nothing to do if no tag detected in url
-    }
-  }
-
-/**
- * function that display or hide html elements depending on selected tag button 
- * 
- */
-function filterMediasOnSelectedTag() {
-    const eltClasses = this.className.split(' ');
-    const selectedTagName = eltClasses.filter(x => x.startsWith('btn-tag--'))[0].replace('btn-tag--','');
-    const medias = document.querySelectorAll('.thumb-imgfull');
-    const buttonsTagsPressed = document.querySelectorAll('button[class~="btn-tag"][aria-pressed="true"]');
-    const url = new URL(window.location.href);
-    
-    if (this.getAttribute('aria-pressed')=="true") {
-        medias.forEach((media) => { 
-            media.classList.remove('hidden')
-        })
-        url.searchParams.delete('tag'); //update url : delete tag parameter
-    }
-    else {
-        this.setAttribute('aria-pressed',"true");
-        medias.forEach((media) => { 
-            media.classList.remove('hidden');
-            if (media.getAttribute('data-tags') != selectedTagName) {
-                media.classList.add('hidden')
-            }
-        })
-        url.searchParams.set('tag', selectedTagName); //update url with new tag parameter
-    }
-    buttonsTagsPressed.forEach((buttonElement) => { 
-        buttonElement.setAttribute('aria-pressed',"false");
-    })
-    this.blur(); // to make the focus disappear
-    window.history.replaceState(null, null, url); // or pushState
-}
 
 /**
  * Function to create or update HTML elements depending on photgrapherData extracted
@@ -195,9 +109,9 @@ function createElementsOnMediasData(mediasData) {
 
     mainDataElement.style.opacity = 0;
 
-    for (const mediaIndex in mediasData) {
+    for (const index in mediasData) {
         
-        const mediaData = mediasData[mediaIndex]
+        const mediaData = mediasData[index]
      
         let articleMedia = document.createElement("article");
         articleMedia.classList.add("thumb-imgfull");
@@ -217,7 +131,10 @@ function createElementsOnMediasData(mediasData) {
         linkMedia.setAttribute("aria-label",`${mediaData.title}, vue agrandie`);
         linkMedia.setAttribute("tabindex","0");
         linkMedia.setAttribute("role","link");
-        linkMedia.setAttribute("onclick",`openLightbox(),showMediaIndex(${mediaIndex})`);
+        linkMedia.addEventListener("click",function() {
+            openLightbox();
+            showMediaIndex(index);
+        });
         articleMedia.appendChild(linkMedia);
 
         const mediaType = mediaData.video ? "video" : "image";
@@ -272,7 +189,6 @@ function createElementsOnMediasData(mediasData) {
 
     }
     sortData("likes","number","desc"); //sort by likes desc on load
-
     mainDataTotalLikesElement.textContent = getTotalLikes()
     mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
     mainDataElement.style.opacity = 1;
@@ -303,76 +219,22 @@ function createElementsOnMediasData(mediasData) {
             likeEvent(event.target);          
         }
     }));
-}
-  
-  /**
-   * Function to create Lightbox depending on mediasData extracted
-   * @param {object} mediasData 
-   */
-  function createLightbox(mediasData) {
-    const lightBoxContent = document.getElementById('lightbox-content');
-  
-    for (const mediaIndex in mediasData) {
-        
-        const mediaData = mediasData[mediaIndex]
-     
-        let divMediaLightbox = document.createElement("div");
-        divMediaLightbox.classList.add("lightbox-imgfull");
-        divMediaLightbox.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
-        divMediaLightbox.style.backgroundPosition = "center";
-        
-        const mediaType = mediaData.video ? "video" : "image";
-        const media = new Media(mediaType, mediaData);
-        const mediaElt = media.createElementInLightbox();
-        divMediaLightbox.appendChild(mediaElt);
-
-        const mediaEventType = mediaData.video ? "loadedmetadata" : "load";
-        mediaElt.style.opacity = 0;
-        mediaElt.addEventListener(mediaEventType, function() { 
-            titleMediaLightbox.style.opacity = 1;
-            mediaElt.style.opacity = 1;
-            divMediaLightbox.style.background = "none";
-        });
-  
-        let titleMediaLightbox = document.createElement("span");
-        titleMediaLightbox.textContent = mediaData.title;
-        titleMediaLightbox.classList.add("lightbox-imgfull__title");
-        divMediaLightbox.appendChild(titleMediaLightbox);
-        titleMediaLightbox.style.opacity = 0; 
-        lightBoxContent.insertBefore(divMediaLightbox, firstChildLightboxContent);
-    }
     selectTagFromUrl();
-  }
+}
 
 /**
  * Function to get photographers and media Datas and update html (on promises)
  */
 function loadData() {
-    getData(url,'photographers')
+    getData(urlData,'photographers')
     .then(extractData => filterData(extractData,filtersDataPhotograph)[0])
     .then(extractData => (createElementsOnPhotographData(extractData)))
 
-    getData(url,'media')
+    getData(urlData,'media')
     .then(extractData => filterData(extractData,filtersDataMedia))
     .then(extractData => (createElementsOnMediasData(extractData)))
 }   
 
-/**
- * Function to get photographers and media Datas and update html (on promises)
- */
-function loadLightbox() {
-    getData(url,'media')
-    .then(extractData => filterData(extractData,filtersDataMedia))
-    .then(extractData => (createLightbox(extractData)))
-}
-
 //Load Photograph and Media Data 
 loadData();
-
-//Load Lightbox (after LoadData)
-loadLightbox();
-
-
-
-
 
