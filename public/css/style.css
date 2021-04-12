@@ -697,6 +697,7 @@ label, input {
   line-height: 1.6rem;
 }
 .photographer-gallery .thumb-imgfull .thumb-img__likes[data-likes]::before {
+  content: attr(data-likes);
   content: attr(data-likes)/"";
 }
 .photographer-gallery .thumb-imgfull .thumb-img__infos {

@@ -100,12 +100,11 @@
             height: 300px;
             object-fit: cover;
             border-radius: 5px;
-            // background: url('../images/LoadSpinner.gif') no-repeat;
-            // background-position: center;
             &__likes {
                 padding: 0px 2px 0px 4px;
                 line-height: 1.6rem;
                 &[data-likes]::before { 
+                    content: attr(data-likes); /// "";  // add / "" to hide for reed screeners
                     content: attr(data-likes) / "";  // add / "" to hide for reed screeners
                 }
             }

@@ -35,38 +35,48 @@ function openLightbox() {
 let mediaIndex = 0;
 showMediaIndex(mediaIndex);
 
-
+/**
+ * Show the media with index n   
+ * @param {number} n -- 1 for next index and -1 for previous index 
+ */
 function showMediaIndex(n) {
     mediaIndex = Number(n);
     const imagesLightbox = document.getElementsByClassName("lightbox-imgfull");
     let indexFirstImageLightbox = 0;
     let indexLastImageLightbox = 0;
     let cptImageLightbox = 0;
-    for (let i = 0; i < imagesLightbox.length; i++) {
+    // check for index of the first and last visible image
+    for (let i = 0; i < imagesLightbox.length; i++) {  
       if (!imagesLightbox[i].classList.contains('hidden')) {
         cptImageLightbox++;
         if (cptImageLightbox==1) {indexFirstImageLightbox = i}
         indexLastImageLightbox = i
       }
     }
-    if (n > imagesLightbox.length-1) {mediaIndex = indexFirstImageLightbox}
-    if (n < indexFirstImageLightbox) {mediaIndex = indexLastImageLightbox}
+    if (n > imagesLightbox.length-1) {mediaIndex = indexFirstImageLightbox} // go to first image if n > imagesLightbox.length-1
+    if (n < indexFirstImageLightbox) {mediaIndex = indexLastImageLightbox} // go to last image if n < indexFirstImageLightbox
     for (let i = 0; i < imagesLightbox.length; i++) {
         (i!=mediaIndex) ? imagesLightbox[i].style.display = "none" : imagesLightbox[i].style.display = "block";
     }
 }
 
 // Next/previous controls
+/**
+ * Move to the previous or next index 
+ * @param {number} n --expected 1 for next index and -1 for previous index 
+ */
 function moveIndex(n) {
     const imagesLightbox = document.getElementsByClassName("lightbox-imgfull");
-    if (n>0) {
+    if (n>0) { // if next index is hidden, move to the next visible index
       for (let i = mediaIndex + n; i < imagesLightbox.length; i++) {
-        if (imagesLightbox[i].classList.contains('hidden')) {
-          n+=1;
-        }
-        else {
-          break;
-        }
+        if (imagesLightbox[i].classList.contains('hidden')) {n+=1;}
+        else { break;}
+      }
+    }
+    else if (n<0) { // if previous index is hidden, move to the previous visible index
+      for (let i = mediaIndex + n; i>0; i--) {
+        if (imagesLightbox[i].classList.contains('hidden')) {n-=1;}
+        else {break;}
       }
     }
     showMediaIndex(mediaIndex += n);
