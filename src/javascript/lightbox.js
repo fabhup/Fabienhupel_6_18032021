@@ -162,4 +162,36 @@ function loadLightbox() {
 //Load Lightbox (after LoadData)
 loadLightbox();
 
+
+//Events for move to previous or nexct media on swipe right and left 
+lightboxElement.addEventListener('touchstart', handleTouchStart);        
+lightboxElement.addEventListener('touchmove', handleTouchMoveX);
+
+var xDown = null;                                                        
+
+function handleTouchStart(evt) {                                         
+    xDown = evt.originalEvent.touches[0].clientX;                                      
+}                                               
+
+function handleTouchMoveX(evt) {
+    if ( ! xDown ) {
+        return;
+    }
+
+    var xUp = evt.originalEvent.touches[0].clientX;                                    
+
+    var xDiff = xDown - xUp;
+
+    if ( xDiff > 0 ) {
+            /* left swipe */ 
+            moveIndex(1)
+    } 
+    else {
+        /* right swipe */
+        moveIndex(-1)
+    }                        
+    /* reset values */
+    xDown = null;
+}
+
 export {openLightbox, showMediaIndex} 
