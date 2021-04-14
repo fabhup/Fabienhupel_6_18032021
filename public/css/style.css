@@ -1,3 +1,5 @@
+@charset "UTF-8";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
 *,
 *::after,
 *::before {
@@ -75,6 +77,7 @@ a {
   text-decoration: none;
   overflow: hidden;
   transform: scale(1);
+  opacity: 1;
   transition: transform 0.12s ease-in-out;
   background: transparent;
   border: none;
@@ -82,6 +85,7 @@ a {
 .btn:hover, .btn:active, .btn:focus {
   -webkit-tap-highlight-color: transparent;
   transform: scale(1.05);
+  opacity: 0.85;
 }
 .btn:active {
   outline: none !important;
@@ -99,6 +103,7 @@ a {
   text-decoration: none;
   overflow: hidden;
   transform: scale(1);
+  opacity: 1;
   transition: transform 0.12s ease-in-out;
   color: #901C1C;
   background: transparent;
@@ -108,6 +113,7 @@ a {
 .btn-tag:hover, .btn-tag:active, .btn-tag:focus {
   -webkit-tap-highlight-color: transparent;
   transform: scale(1.05);
+  opacity: 0.85;
 }
 .btn-tag:active {
   outline: none !important;
@@ -142,6 +148,7 @@ a {
   text-decoration: none;
   overflow: hidden;
   transform: scale(1);
+  opacity: 1;
   transition: transform 0.12s ease-in-out;
   height: 2.5rem;
   padding: 5px 10px;
@@ -155,6 +162,7 @@ a {
 .btn-contact:hover, .btn-contact:active, .btn-contact:focus, .btn-submit:hover, .btn-submit:active, .btn-submit:focus, .btn-close:hover, .btn-close:active, .btn-close:focus {
   -webkit-tap-highlight-color: transparent;
   transform: scale(1.05);
+  opacity: 0.85;
 }
 .btn-contact:active, .btn-submit:active, .btn-close:active {
   outline: none !important;
@@ -261,6 +269,10 @@ a {
   font-size: calc(0.8rem + 0.3vw);
 }
 
+input, textarea {
+  position: relative;
+}
+
 .input-error {
   display: inline-block;
   font-size: calc(0.8rem + 0.2vw);
@@ -271,6 +283,19 @@ a {
   transition: 0.3s;
   line-height: 1.2rem;
   font-weight: 100;
+  position: relative;
+}
+.input-error::before {
+  color: #901C1C;
+  content: "⚠";
+  font-size: 1.5rem;
+  font-weight: 900;
+  width: 25px;
+  height: 20px;
+  position: absolute;
+  right: calc(1px + 0.7rem);
+  top: calc(-15px - 1.4rem);
+  z-index: 999;
 }
 
 .lightbox {
@@ -313,6 +338,13 @@ a {
   cursor: pointer;
   border: none;
   background: none;
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.12s ease-in-out;
+}
+.lightbox .icon-prev:hover, .lightbox .icon-prev:active, .lightbox .icon-prev:focus, .lightbox .icon-next:hover, .lightbox .icon-next:active, .lightbox .icon-next:focus, .lightbox .icon-close:hover, .lightbox .icon-close:active, .lightbox .icon-close:focus {
+  transform: scale(1.05);
+  opacity: 0.7;
 }
 .lightbox .icon-prev svg, .lightbox .icon-next svg, .lightbox .icon-close svg {
   width: 4vmin;
@@ -333,6 +365,9 @@ a {
   margin: 0px 2.5vmin;
   transform: rotate(180deg);
   order: -1;
+}
+.lightbox .icon-prev:hover, .lightbox .icon-prev:active, .lightbox .icon-prev:focus {
+  transform: scale(1.05) rotate(180deg);
 }
 .lightbox .icon-next {
   margin: 0px 2vmin;
@@ -382,7 +417,7 @@ a {
 .dropdown-option {
   margin: 4px 8px 6px;
   border-top: 1px solid white;
-  padding: 10px 6px 6px;
+  padding: 10px 10px 6px;
   transform: scale(1);
   transition: transform 0.2s;
   display: none;
@@ -393,6 +428,12 @@ a {
 .dropdown-option[aria-selected=true] {
   border-top: none;
   display: block;
+}
+.dropdown-option:hover, .dropdown-option:active, .dropdown-option:focus {
+  -webkit-tap-highlight-color: transparent;
+}
+.dropdown-option:active {
+  outline: none !important;
 }
 .dropdown-arrow {
   position: absolute;
@@ -420,6 +461,16 @@ body {
   align-items: center;
   padding: 40px 40px 20px;
   max-width: 1400px;
+}
+.header-logo {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.12s ease-in-out;
+}
+.header-logo:hover, .header-logo:active, .header-logo:focus {
+  -webkit-tap-highlight-color: transparent;
+  transform: scale(1.05);
+  opacity: 0.85;
 }
 .header-logo svg {
   width: 200px;
@@ -482,15 +533,21 @@ textarea {
   letter-spacing: 1px;
   line-height: 1.5rem;
   margin: 5px 0px 3px;
-  width: 98%;
+  width: 100%;
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  padding-right: calc(30px + 0.6rem);
 }
 
 input {
   letter-spacing: 1px;
   line-height: 2rem;
-  width: 98%;
+  width: 100%;
   margin: 5px 0px 5px;
   padding: 5px;
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+  padding-right: calc(30px + 0.6rem);
 }
 
 label {
@@ -526,6 +583,46 @@ label, input {
   }
 }
 
+.link-maincontent {
+  border: 0.5px solid #C4C4C4;
+  box-sizing: border-box;
+  padding: 0.5px 9px 1px;
+  margin: 4px 0px;
+  font-size: calc(0.6rem + 0.4vw);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
+  overflow: hidden;
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.12s ease-in-out;
+  background-color: #DB8876;
+  color: black;
+  border-radius: 3px;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-decoration: none;
+  padding: 5px 20px;
+  z-index: 999;
+  position: fixed;
+  width: max-content;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: none;
+}
+.link-maincontent:hover, .link-maincontent:active, .link-maincontent:focus {
+  -webkit-tap-highlight-color: transparent;
+  transform: scale(1.05);
+  opacity: 0.85;
+}
+.link-maincontent:active {
+  outline: none !important;
+}
+
 .thumb-photographer {
   width: 350px;
   display: flex;
@@ -536,9 +633,15 @@ label, input {
   text-align: center;
   transform: scale(1);
   transition: transform 0.2s ease-in-out;
+  opacity: 1;
 }
-.thumb-photographer:hover {
+.thumb-photographer:hover, .thumb-photographer:active, .thumb-photographer:focus {
   transform: scale(1.05);
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0.8;
+}
+.thumb-photographer:active {
+  outline: none !important;
 }
 .thumb-photographer img {
   width: 200px;
@@ -671,12 +774,14 @@ label, input {
   width: 300px;
   margin: calc(10px + 0.5rem) 10px;
   cursor: pointer;
+  opacity: 1;
   transform: scale(1);
   transition: transform 0.2s ease-in-out;
 }
 .photographer-gallery .thumb-imgfull:hover, .photographer-gallery .thumb-imgfull:active, .photographer-gallery .thumb-imgfull:focus {
   transform: scale(1.05);
   -webkit-tap-highlight-color: transparent;
+  opacity: 0.8;
 }
 .photographer-gallery .thumb-imgfull:active {
   outline: none !important;

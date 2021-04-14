@@ -17,6 +17,7 @@ const ImageMedia = function({ title, image }) {
         const elt = document.createElement("img");
         elt.classList.add("thumb-img");
         elt.setAttribute("src",(urlImagesMediaPhotographerSmall + this.image));
+        elt.setAttribute("alt", this.title);
         elt.setAttribute("onerror",`this.src='${urlImagesMedia}image-not-found.jpg'`);
         return elt;
     };

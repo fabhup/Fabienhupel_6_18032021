@@ -98,8 +98,8 @@ const removeElements = (elms) => elms.forEach(el => el.remove());
 function openModalContact() {
     modalContact.style.display = "flex";
     modalContactContent.style.display = "block";
-    removeElements(document.querySelectorAll(".input-error"));        
-    modalContactContent.focus();
+    removeElements(document.querySelectorAll(".input-error")); 
+    firstnameInput.focus();       
     modalContactForm.reset(); 
 }
 
@@ -107,6 +107,7 @@ function closeModalContact() {
     modalContact.style.display = "none";
     modalContactCloseMessage.style.display = "none";
     modalContactContent.style.display = "none";
+    btnOpenModalContact.focus();
 }
 
 // Event on submit of the modal contact form (submit event)

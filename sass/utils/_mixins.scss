@@ -51,11 +51,13 @@
     text-decoration: none;
     overflow: hidden;
     transform: scale(1);
+    opacity: 1;
     transition: transform 0.12s ease-in-out;
     
     &:hover, &:active, &:focus {
       -webkit-tap-highlight-color: transparent;
       transform: scale(1.05);
+      opacity: 0.85;
     }
     &:active {
       outline: none !important; 

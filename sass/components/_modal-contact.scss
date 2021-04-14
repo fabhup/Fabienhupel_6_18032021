@@ -1,3 +1,5 @@
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+
 .modal-contact {
     width: 100%;
     height: 100%;
@@ -67,9 +69,14 @@
 
     label, input, textarea {
         font-size: calc(0.8rem + 0.3vw);
+
     }
 }
 
+input, textarea {
+    position:relative;
+    
+}
 .input-error {
     display: inline-block;
     font-size: calc(0.8rem + 0.2vw);
@@ -80,5 +87,18 @@
     transition: 0.3s;
     line-height: 1.2rem;
     font-weight: 100;
+    position: relative;
+    &::before {
+        color: $colour-primary;
+        content: "⚠";
+        font-size: 1.5rem;
+        font-weight: 900;
+        width:25px;
+        height:20px;
+        position:absolute;
+        right:calc(1px + 0.7rem);
+        top:calc(-15px - 1.4rem);
+        z-index:999;
+    }
   }
   

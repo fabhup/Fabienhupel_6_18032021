@@ -78,6 +78,17 @@ function closeDropdown() {
   }
 } 
 
+//Function to change attributes when dropdown is opened
+function openDropDown() {
+  if (dropdown.getAttribute("aria-expanded") == "false") {
+    dropdown.setAttribute("aria-expanded", "true");
+  }
+  else if (dropdown.getAttribute("aria-expanded") == "true") {
+    dropdown.setAttribute("aria-expanded", "false");
+  }
+  dropdownList.focus();
+}
+
 /**
  * Function for manage event on dropdown Element options
  * 
@@ -105,7 +116,7 @@ function dropdownEvent(element) {
 
     // dropdown.setAttribute("aria-expanded", "false"); 
     closeDropdown()
-    
+    element.focus();
   }
 }
 
@@ -119,15 +130,17 @@ dropdownOptions.forEach((element) => element.addEventListener("click", event => 
 //Keyboards Events on dropdownOptions
 dropdownOptions.forEach((element) => element.addEventListener("keypress", event => {
   event.preventDefault();
-  if (event.keyCode == 32) { // event for space key 
+  if (event.code === "Space") { // event for space key 
     dropdownEvent(event.target);          
   }
+  event.stopPropagation()
 }));
 dropdownOptions.forEach((element) => element.addEventListener("keyup", event => {
   event.preventDefault();
-  if (event.keyCode == 13 ) { // event for enter key
+  if (event.key == "Enter" ) { // event for enter key
     dropdownEvent(event.target);     
   }
+  event.stopPropagation()
 }));
 
 //FocusOut Event on dropdown (to close it when focus is outside the dropdown)
@@ -140,14 +153,19 @@ dropdown.addEventListener("focusout",function(event) {
 });
 
 //Click Event on dropdown (to open or close it)
-dropdown.addEventListener("click",function() {
-  if (dropdown.getAttribute("aria-expanded") == "false") {
-    dropdown.setAttribute("aria-expanded", "true");
+dropdown.addEventListener("click",openDropDown);
+
+dropdown.addEventListener("keypress", event => {
+  if (event.code === "Space") { // event for space key 
+    event.preventDefault();
+    openDropDown();
+  }     
+});
+dropdown.addEventListener("keyup", event => {
+  event.preventDefault();
+  if (event.key === "Enter" ) { // event for enter key
+    dropdownEvent(event.target);     
   }
-  else if (dropdown.getAttribute("aria-expanded") == "true") {
-    dropdown.setAttribute("aria-expanded", "false");
-  }
-  dropdownList.focus();
 });
 
 export {sortData}

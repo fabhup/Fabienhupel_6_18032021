@@ -55,7 +55,7 @@ function createElementsOnPhotographData(photographerData) {
         buttonTagPhotographer.classList.add("btn-tag--" + photographerData.tags[tag]);
         buttonTagPhotographer.setAttribute("id","btn-tag--" + photographerData.tags[tag]);
         buttonTagPhotographer.setAttribute("role","button");
-        buttonTagPhotographer.setAttribute("aria-label",("Tag " + photographerData.tags[tag]));
+        buttonTagPhotographer.setAttribute("aria-label",("Filtre Tag " + photographerData.tags[tag]));
         buttonTagPhotographer.setAttribute("aria-pressed","false");        
         buttonTagPhotographer.textContent = "#" + photographerData.tags[tag];
 
@@ -121,7 +121,7 @@ function createElementsOnMediasData(mediasData) {
         articleMedia.setAttribute("data-price",mediaData.price);
         articleMedia.setAttribute("data-tags",mediaData.tags);
         articleMedia.setAttribute("data-title",mediaData.title);
-        articleMedia.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
+        articleMedia.style.background = "url('./public/images/LoadSpinner.gif') no-repeat";
         articleMedia.style.backgroundPosition = "center";
 
         photographerGallery.appendChild(articleMedia);
@@ -174,7 +174,7 @@ function createElementsOnMediasData(mediasData) {
         let likesIcone = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         likesIcone.setAttribute("viewBox","-2 -2 25 25");
         likesIcone.setAttribute("role","button");
-        likesIcone.setAttribute("aria-label","likes, you don't like it yet");
+        likesIcone.setAttribute("aria-label","likes, vous n'aimez pas encore");
         likesIcone.setAttribute("tabindex","0");
         likesIcone.classList.add("thumb-img__like-icone");
         likesIcone.innerHTML = '<path d="M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z" fill="#911C1C"/>';
@@ -188,7 +188,7 @@ function createElementsOnMediasData(mediasData) {
         articleMedia.appendChild(titleMedia);
 
     }
-    sortData("likes","number","desc"); //sort by likes desc on load
+    sortData("likes","number","desc"); //default sort on load : by likes desc 
     mainDataTotalLikesElement.textContent = getTotalLikes()
     mainDataTotalLikesElement.setAttribute("aria-label",`Nombre de likes total du photographe ${mainDataTotalLikesElement.textContent}`);
     mainDataElement.style.opacity = 1;
@@ -198,12 +198,12 @@ function createElementsOnMediasData(mediasData) {
     function likeEvent(element) {
         if (element.classList.contains('liked')) {
             element.classList.remove('liked'); 
-            element.setAttribute("aria-label","likes, you don't like it yet");
+            element.setAttribute("aria-label","likes, vous n'aimez plus");
             element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) - 1 );
         }
         else {
             element.classList.add('liked'); 
-            element.setAttribute("aria-label","likes, you like it");
+            element.setAttribute("aria-label","likes, vous aimez");
             element.parentElement.setAttribute("data-likes",Number(element.parentElement.getAttribute("data-likes")) + 1 );
         }  
         element.parentElement.setAttribute("aria-label",`${Number(element.parentElement.getAttribute("data-likes"))} likes sur cette photo`);

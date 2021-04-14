@@ -22,7 +22,7 @@ function openLightbox() {
   lightboxElement.style.display = "flex";
   mainContentElement.setAttribute("aria-hidden","true");
   mainHeaderElement.setAttribute("aria-hidden","true");
-  lightboxElement.focus() ;
+  lightboxElement.focus  () ;
 }
   
   // Close the LightBox Gallery
@@ -85,15 +85,17 @@ function moveIndex(n) {
 
 // Lightbox Event Keyboard
 lightboxElement.addEventListener("keydown", event => {
-  event.preventDefault();
   if (event.key === "ArrowLeft") { // event for left arrow (previous media)
-      moveIndex(-1);       
+    event.preventDefault();
+    moveIndex(-1);       
   }
   else if (event.key === "ArrowRight") { // event for right arrow (next media)
-      moveIndex(1);          
+    event.preventDefault();
+    moveIndex(1);          
   }
   else if (event.key === "Escape") {
-      closeLightbox();
+    event.preventDefault();
+    closeLightbox();
   }
 });
 

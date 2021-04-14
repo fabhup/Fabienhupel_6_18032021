@@ -63,7 +63,7 @@ function getPhotographers(response) {
         let headerPhotographer = document.createElement("header");
         headerPhotographer.classList.add("thumb-photographer__header");
         articlePhotographer.appendChild(headerPhotographer);
-        articlePhotographer.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
+        articlePhotographer.style.background = "url('./public/images/LoadSpinner.gif') no-repeat";
         articlePhotographer.style.backgroundPosition = "center";
 
         let linkPhotographer = document.createElement("a");
@@ -172,3 +172,9 @@ ajaxGet('./src/data/database.json', getPhotographers);
 //Event on Tags Buttons Nav
 const buttonsSelectTag = document.querySelectorAll('nav button[class~="btn-tag"]');
 buttonsSelectTag.forEach((button) => button.addEventListener("click", filterSelectedTag))
+
+//Event on link to Media Content
+const linkToMainContent = document.getElementById('link-maincontent');
+document.addEventListener("scroll", function() {
+    linkToMainContent.style.display = "block";
+})

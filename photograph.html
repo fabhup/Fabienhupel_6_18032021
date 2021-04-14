@@ -8,7 +8,7 @@
 </head>
 <body>
     <header id="main-header" class="header" role="banner">
-        <a aria-label="Fisheye Home page" href="./index.html" class="header-logo">
+        <a aria-label="Fisheye Home page" href="./index.html" class="header-logo" tabindex="0">
             <svg role="img" width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <title>Fisheye Home page</title>
                 <path d="M24.7206 0.911621V6.51058H6.31164V17.5783H21.4333V22.9168H6.31164V39.1929H0V0.911621H24.7206Z" fill="#911C1C"/>
@@ -32,18 +32,18 @@
             </div>
         </header>
         <div id="photographer-main-data" class="photographer-main-data">
-            <span role="text" id="photographer-main-data__likes" class="photographer-main-data__likes"></span>
+            <span id="photographer-main-data__likes" class="photographer-main-data__likes"></span>
             <svg width="19" height="19" viewBox="-2 -2 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z" fill="black"/>
             </svg>
-            <span role="text" id="photographer-main-data__price" class="photographer-main-data__price"> 
+            <span id="photographer-main-data__price" class="photographer-main-data__price"> 
             </span>
         </div>
         <div id="dropdown" class="dropdown">
-            <div id="dropdown-title"class="dropdown-title" aria-hidden="true"> 
+            <div id="dropdown-title" class="dropdown-title" aria-hidden="true"> 
                 Trier par
             </div>
-            <button id="dropdown-content" class="dropdown-content" aria-expanded="false" aria-labelledby="dropdown-title" aria-haspopup="listbox">                   
+            <div role="button" id="dropdown-content" class="dropdown-content" aria-expanded="false" aria-labelledby="dropdown-title" aria-haspopup="listbox">                   
                 <ul id="dropdown-list" role="listbox" aria-labelledby="dropdown-title" aria-activedescendant="dropdown-option-1" tabindex="0">
                     <li id="dropdown-option-1" class="dropdown-option" data-value="likes" role="option" aria-label="Trier par Popularité" aria-selected="true" aria-hidden="false" tabindex="0">Popularité</li>
                     <li id="dropdown-option-2" class="dropdown-option" data-value="date" role="option" aria-label="Trier par Date" aria-selected="false" aria-hidden="false" tabindex="0">Date</li>
@@ -52,7 +52,7 @@
                 <svg width="30" height="48" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="dropdown-arrow">
                     <path d="M0.360108 5.64L18.6801 24L0.360107 42.36L6.00011 48L30.0001 24L6.00011 3.88195e-06L0.360108 5.64Z" fill="#911C1C"/>
                 </svg>
-            </button>
+            </div>
         </div>
         <section id="photographer-gallery" class="photographer-gallery">
             <!-- js script load data images -->
@@ -113,12 +113,11 @@
                   type="email"
                   id="email"
                   name="email"
-				/>
-
+                />
+                
                 <label for="message">Message</label>
                 <textarea
                   class="form-input"
-                  type="textarea"
                   id="message"
                   name="message"
                   rows=4 cols=40

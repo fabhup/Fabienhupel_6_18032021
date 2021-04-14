@@ -35,7 +35,7 @@
     &-option {
         margin: 4px 8px 6px;
         border-top: 1px solid $colour-background-primary-font;
-        padding: 10px 6px 6px ;
+        padding: 10px 10px 6px ;
         transform: scale(1);
         transition: transform 0.2s;
         display: none;
@@ -45,6 +45,12 @@
         &[aria-selected="true"]  {
             border-top: none;
             display: block;
+        }
+        &:hover, &:active, &:focus {
+            -webkit-tap-highlight-color: transparent;
+          }
+        &:active {
+        outline: none !important; 
         }
     }
 

@@ -1,6 +1,4 @@
 
-
-
 .content {
     padding: 0 $layout-margin $layout-margin $layout-margin;
     display: flex;
@@ -10,6 +8,20 @@
     @media (max-width: 768px) {
         padding: 0;
         }
+}
+
+.link-maincontent {
+    @include btn;
+    @include secondary-color-style;
+    padding: 5px 20px;
+    z-index: 999;
+    position: fixed;
+    width: max-content;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: none;
 }
 
 .thumb-photographer {
@@ -22,9 +34,15 @@
     text-align: center;
     transform: scale(1);
     transition: transform 0.2s ease-in-out;
-
-    &:hover {
+    opacity:1;
+        
+    &:hover, &:active, &:focus {
         transform: scale(1.05);
+        -webkit-tap-highlight-color: transparent;
+        opacity: 0.8;
+    }
+    &:active {
+        outline: none !important; 
     }
     
     & img {
