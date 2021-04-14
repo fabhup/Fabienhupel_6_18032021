@@ -170,7 +170,7 @@ lightboxElement.addEventListener('touchmove', handleTouchMoveX);
 var xDown = null;                                                        
 
 function handleTouchStart(evt) {                                         
-    xDown = evt.originalEvent.touches[0].clientX;                                      
+    xDown = evt.touches[0].clientX;                                      
 }                                               
 
 function handleTouchMoveX(evt) {
@@ -178,7 +178,7 @@ function handleTouchMoveX(evt) {
         return;
     }
 
-    var xUp = evt.originalEvent.touches[0].clientX;                                    
+    var xUp = evt.touches[0].clientX;                                    
 
     var xDiff = xDown - xUp;
 
