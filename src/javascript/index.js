@@ -175,6 +175,52 @@ buttonsSelectTag.forEach((button) => button.addEventListener("click", filterSele
 
 //Event on link to Media Content
 const linkToMainContent = document.getElementById('link-maincontent');
-document.addEventListener("scroll", function() {
+
+/**
+ * Function to display the link to Main Content
+ * 
+ */
+function displayLinkToContent() {
     linkToMainContent.style.display = "block";
-})
+}
+
+/**
+ * Function to hide the link to Main Content
+ * 
+ */
+function hideLinkToContent() {
+    linkToMainContent.style.display = "none";
+}
+
+let cptscroll = 0;
+// Scroll event listener
+function firstScrollListener() {
+    if (cptscroll==0) {
+        displayLinkToContent();
+        setTimeout(function() {
+        window.removeEventListener("scroll", firstScrollListener);
+        hideLinkToContent();
+        }, 5000);
+    }
+    cptscroll++;
+}
+
+let cptkeytab = 0;
+// Scroll event listener
+const firstKeyListener = (key) => (
+    function(evt) {
+        if (evt.key === key) {
+            if (cptkeytab == 0) {
+                displayLinkToContent();
+            }
+            else {
+                  window.removeEventListener("keydown", firstKeyListener('Tab'));
+                  hideLinkToContent();
+            }
+            cptkeytab++;
+          }
+        }
+);
+
+window.addEventListener("scroll", firstScrollListener);  
+window.addEventListener("keydown", firstKeyListener('Tab'));

@@ -120,7 +120,7 @@ buttonCloseLightbox.addEventListener("click",closeLightbox);
      
         let divMediaLightbox = document.createElement("div");
         divMediaLightbox.classList.add("lightbox-imgfull");
-        divMediaLightbox.style.background = "url('../public/images/LoadSpinner.gif') no-repeat";
+        divMediaLightbox.style.background = "url('./public/images/LoadSpinner.gif') no-repeat";
         divMediaLightbox.style.backgroundPosition = "center";
         divMediaLightbox.setAttribute("data-likes",mediaData.likes);
         divMediaLightbox.setAttribute("data-date",mediaData.date);
